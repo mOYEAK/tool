@@ -4,6 +4,7 @@
     "pages/gridCut/gridCut",
     "pages/longPic/longPic",
     "pages/qrcode/qrcode",
+    "pages/signature/signature",
     "pages/mine/mine"
   ],
   "window": {

@@ -15,5 +15,11 @@ Page({
     wx.navigateTo({
       url: '/pages/qrcode/qrcode'
     })
+  },
+
+  MapsToSignature() {
+    wx.navigateTo({
+      url: '/pages/signature/signature'
+    })
   }
 })
