@@ -5,60 +5,72 @@ page {
 
 .page {
   min-height: 100vh;
-  padding: 32rpx;
+  padding: 36rpx 32rpx 56rpx;
 }
 
-.primary-button,
-.save-button {
-  width: 100%;
-  height: 96rpx;
-  line-height: 96rpx;
-  border-radius: 12rpx;
-  font-size: 32rpx;
+.header {
+  padding: 20rpx 4rpx 36rpx;
 }
 
-.primary-button {
-  color: #FFFFFF;
-  background: #1677FF;
+.title {
+  color: #111111;
+  font-size: 44rpx;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
-.save-button {
-  margin-top: 40rpx;
-  color: #FFFFFF;
-  background: #07C160;
+.subtitle {
+  margin-top: 12rpx;
+  color: #7A7F87;
+  font-size: 26rpx;
+  line-height: 1.5;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8rpx;
-  width: 100%;
-  margin-top: 48rpx;
-  padding: 8rpx;
+.section {
+  padding: 32rpx 28rpx;
   background: #FFFFFF;
+  border-radius: 20rpx;
+}
+
+.section-title {
+  color: #333333;
+  font-size: 32rpx;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32rpx 20rpx;
+  margin-top: 32rpx;
+}
+
+.tool-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 152rpx;
+  padding: 12rpx 4rpx;
   border-radius: 16rpx;
+  background: #FAFBFC;
 }
 
-.grid-image,
-.grid-placeholder {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  border-radius: 8rpx;
+.tool-card:active {
+  background: #EEF4FF;
 }
 
-.grid-image {
-  display: block;
-  background: #EEF0F3;
+.tool-icon {
+  height: 72rpx;
+  font-size: 56rpx;
+  line-height: 72rpx;
 }
 
-.grid-placeholder {
-  background: #EEF0F3;
-}
-
-.crop-canvas {
-  position: fixed;
-  left: -9999px;
-  top: -9999px;
-  width: 1px;
-  height: 1px;
+.tool-name {
+  margin-top: 12rpx;
+  color: #111111;
+  font-size: 24rpx;
+  line-height: 1.4;
+  text-align: center;
 }

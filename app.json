@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/gridCut/gridCut",
     "pages/mine/mine"
   ],
   "window": {

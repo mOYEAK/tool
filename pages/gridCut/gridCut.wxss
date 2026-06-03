@@ -1,0 +1,64 @@
+page {
+  min-height: 100vh;
+  background: #F7F8FA;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 32rpx;
+}
+
+.primary-button,
+.save-button {
+  width: 100%;
+  height: 96rpx;
+  line-height: 96rpx;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+}
+
+.primary-button {
+  color: #FFFFFF;
+  background: #1677FF;
+}
+
+.save-button {
+  margin-top: 40rpx;
+  color: #FFFFFF;
+  background: #07C160;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8rpx;
+  width: 100%;
+  margin-top: 48rpx;
+  padding: 8rpx;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+}
+
+.grid-image,
+.grid-placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 8rpx;
+}
+
+.grid-image {
+  display: block;
+  background: #EEF0F3;
+}
+
+.grid-placeholder {
+  background: #EEF0F3;
+}
+
+.crop-canvas {
+  position: fixed;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+}

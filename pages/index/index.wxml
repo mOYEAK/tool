@@ -1,32 +1,16 @@
 <view class="page">
-  <button class="primary-button" bindtap="chooseImage">选择图片</button>
-
-  <view class="grid">
-    <block wx:if="{{pieces.length}}">
-      <image
-        wx:for="{{pieces}}"
-        wx:key="*this"
-        class="grid-image"
-        src="{{item}}"
-        mode="aspectFill"
-      />
-    </block>
-    <block wx:else>
-      <view wx:for="{{emptyCells}}" wx:key="*this" class="grid-placeholder"></view>
-    </block>
+  <view class="header">
+    <view class="title">日常实用小工具</view>
+    <view class="subtitle">把高频操作收进一个轻便工具箱</view>
   </view>
 
-  <button
-    wx:if="{{pieces.length === 9}}"
-    class="save-button"
-    bindtap="saveAllImages"
-  >
-    一键保存到相册
-  </button>
-
-  <canvas
-    id="cropCanvas"
-    type="2d"
-    class="crop-canvas"
-  ></canvas>
+  <view class="section">
+    <view class="section-title">图像处理</view>
+    <view class="tool-grid">
+      <view class="tool-card" bindtap="MapsToGridCut">
+        <view class="tool-icon">🖼️</view>
+        <view class="tool-name">九宫格切图</view>
+      </view>
+    </view>
+  </view>
 </view>

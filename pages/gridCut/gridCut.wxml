@@ -1,0 +1,32 @@
+<view class="page">
+  <button class="primary-button" bindtap="chooseImage">选择图片</button>
+
+  <view class="grid">
+    <block wx:if="{{pieces.length}}">
+      <image
+        wx:for="{{pieces}}"
+        wx:key="*this"
+        class="grid-image"
+        src="{{item}}"
+        mode="aspectFill"
+      />
+    </block>
+    <block wx:else>
+      <view wx:for="{{emptyCells}}" wx:key="*this" class="grid-placeholder"></view>
+    </block>
+  </view>
+
+  <button
+    wx:if="{{pieces.length === 9}}"
+    class="save-button"
+    bindtap="saveAllImages"
+  >
+    一键保存到相册
+  </button>
+
+  <canvas
+    id="cropCanvas"
+    type="2d"
+    class="crop-canvas"
+  ></canvas>
+</view>
