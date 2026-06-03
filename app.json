@@ -3,6 +3,7 @@
     "pages/index/index",
     "pages/gridCut/gridCut",
     "pages/longPic/longPic",
+    "pages/qrcode/qrcode",
     "pages/mine/mine"
   ],
   "window": {

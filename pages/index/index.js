@@ -9,5 +9,11 @@ Page({
     wx.navigateTo({
       url: '/pages/longPic/longPic'
     })
+  },
+
+  MapsToQrCode() {
+    wx.navigateTo({
+      url: '/pages/qrcode/qrcode'
+    })
   }
 })
