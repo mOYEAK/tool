@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/gridCut/gridCut",
+    "pages/longPic/longPic",
     "pages/mine/mine"
   ],
   "window": {

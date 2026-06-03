@@ -1,0 +1,29 @@
+<view class="page">
+  <button class="primary-button" bindtap="chooseImages">选择多张图片</button>
+
+  <scroll-view class="image-list" scroll-y>
+    <block wx:if="{{images.length}}">
+      <view wx:for="{{images}}" wx:key="path" class="image-item">
+        <image class="preview-image" src="{{item.path}}" mode="widthFix" />
+        <view class="delete-button" data-index="{{index}}" bindtap="deleteImage">×</view>
+      </view>
+    </block>
+    <view wx:else class="empty-state">
+      请选择 2-9 张图片进行长图拼接
+    </view>
+  </scroll-view>
+
+  <button
+    wx:if="{{images.length >= 2}}"
+    class="save-button"
+    bindtap="createAndSaveLongImage"
+  >
+    一键生成并保存长图
+  </button>
+
+  <canvas
+    id="spliceCanvas"
+    type="2d"
+    class="splice-canvas"
+  ></canvas>
+</view>

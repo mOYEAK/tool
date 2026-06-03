@@ -11,6 +11,11 @@
         <view class="tool-icon">🖼️</view>
         <view class="tool-name">九宫格切图</view>
       </view>
+
+      <view class="tool-card" bindtap="MapsToLongPic">
+        <view class="tool-icon">📜</view>
+        <view class="tool-name">长图拼接</view>
+      </view>
     </view>
   </view>
 </view>
