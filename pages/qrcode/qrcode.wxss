@@ -86,3 +86,11 @@ page {
 .placeholder-text {
   color: #8A8F99;
 }
+
+.hidden-canvas {
+  position: fixed;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+}

@@ -1,5 +1,5 @@
 <view class="page">
-  <view class="canvas-wrap">
+  <view class="canvas-wrap" style="background: {{backgroundColor}};">
     <canvas
       type="2d"
       id="signCanvas"
@@ -8,11 +8,58 @@
       bindtouchstart="onTouchStart"
       bindtouchmove="onTouchMove"
       bindtouchend="onTouchEnd"
+      bindtouchcancel="onTouchEnd"
     ></canvas>
   </view>
 
-  <view class="toolbar">
-    <button class="clear-button" bindtap="clearCanvas">清除重写</button>
-    <button class="save-button" bindtap="saveSignature">保存签名</button>
+  <view class="control-panel">
+    <view class="control-row">
+      <text class="control-label">画笔颜色</text>
+      <view class="swatch-list">
+        <view
+          wx:for="{{brushColors}}"
+          wx:key="*this"
+          class="swatch {{strokeStyle === item ? 'swatch-active' : ''}}"
+          style="background: {{item}};"
+          data-color="{{item}}"
+          bindtap="changeStrokeColor"
+        ></view>
+      </view>
+    </view>
+
+    <view class="control-row">
+      <text class="control-label">画布颜色</text>
+      <view class="swatch-list">
+        <view
+          wx:for="{{backgroundColors}}"
+          wx:key="*this"
+          class="swatch {{backgroundColor === item ? 'swatch-active' : ''}}"
+          style="background: {{item}};"
+          data-color="{{item}}"
+          bindtap="changeBackgroundColor"
+        ></view>
+      </view>
+    </view>
+
+    <view class="slider-row">
+      <text class="control-label">粗细 {{lineWidth}}</text>
+      <slider
+        class="line-slider"
+        min="2"
+        max="18"
+        step="1"
+        value="{{lineWidth}}"
+        activeColor="#1677FF"
+        backgroundColor="#DADDE3"
+        block-size="22"
+        bindchanging="changeLineWidth"
+        bindchange="changeLineWidth"
+      />
+    </view>
+
+    <view class="toolbar">
+      <button class="clear-button" bindtap="clearCanvas">清除重写</button>
+      <button class="save-button" bindtap="saveSignature">保存签名</button>
+    </view>
   </view>
 </view>

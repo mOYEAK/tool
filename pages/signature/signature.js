@@ -1,7 +1,10 @@
 Page({
   data: {
     lineWidth: 6,
-    strokeStyle: '#000000'
+    strokeStyle: '#000000',
+    backgroundColor: '#FFFFFF',
+    brushColors: ['#000000', '#E53935', '#1677FF', '#07C160', '#FF8A00', '#8E44AD'],
+    backgroundColors: ['#FFFFFF', '#F7F8FA', '#FFF7E6', '#EAF4FF', '#EFFFF5', '#111111']
   },
 
   canvas: null,
@@ -10,7 +13,8 @@ Page({
   canvasHeight: 0,
   dpr: 1,
   isDrawing: false,
-  hasDrawing: false,
+  currentStroke: null,
+  strokes: [],
 
   onReady() {
     this.initCanvas()
@@ -44,8 +48,7 @@ Page({
           canvas.height = canvasInfo.height * dpr
 
           ctx.scale(dpr, dpr)
-          this.setBrushStyle()
-          ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
+          this.redrawCanvas()
         } catch (err) {
           wx.showToast({
             title: '画板初始化失败',
@@ -55,15 +58,24 @@ Page({
       })
   },
 
-  setBrushStyle() {
-    if (!this.ctx) {
-      return
-    }
+  changeStrokeColor(e) {
+    this.setData({
+      strokeStyle: e.currentTarget.dataset.color
+    })
+  },
 
-    this.ctx.strokeStyle = this.data.strokeStyle
-    this.ctx.lineWidth = this.data.lineWidth
-    this.ctx.lineCap = 'round'
-    this.ctx.lineJoin = 'round'
+  changeBackgroundColor(e) {
+    this.setData({
+      backgroundColor: e.currentTarget.dataset.color
+    }, () => {
+      this.redrawCanvas()
+    })
+  },
+
+  changeLineWidth(e) {
+    this.setData({
+      lineWidth: e.detail.value
+    })
   },
 
   onTouchStart(e) {
@@ -74,26 +86,37 @@ Page({
     const point = this.getTouchPoint(e)
 
     this.isDrawing = true
-    this.hasDrawing = true
-    this.setBrushStyle()
+    this.currentStroke = {
+      color: this.data.strokeStyle,
+      width: this.data.lineWidth,
+      points: [point]
+    }
+
     this.ctx.beginPath()
+    this.applyStrokeStyle(this.currentStroke)
     this.ctx.moveTo(point.x, point.y)
   },
 
   onTouchMove(e) {
-    if (!this.ctx || !this.isDrawing) {
+    if (!this.ctx || !this.isDrawing || !this.currentStroke) {
       return
     }
 
     const point = this.getTouchPoint(e)
 
+    this.currentStroke.points.push(point)
     this.ctx.lineTo(point.x, point.y)
     this.ctx.stroke()
     this.ctx.moveTo(point.x, point.y)
   },
 
   onTouchEnd() {
+    if (this.currentStroke && this.currentStroke.points.length) {
+      this.strokes.push(this.currentStroke)
+    }
+
     this.isDrawing = false
+    this.currentStroke = null
   },
 
   getTouchPoint(e) {
@@ -105,13 +128,54 @@ Page({
     }
   },
 
-  clearCanvas() {
+  applyStrokeStyle(stroke) {
+    this.ctx.strokeStyle = stroke.color
+    this.ctx.lineWidth = stroke.width
+    this.ctx.lineCap = 'round'
+    this.ctx.lineJoin = 'round'
+  },
+
+  redrawCanvas() {
     if (!this.ctx) {
       return
     }
 
     this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
-    this.hasDrawing = false
+    this.ctx.fillStyle = this.data.backgroundColor
+    this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight)
+
+    for (const stroke of this.strokes) {
+      this.drawStroke(stroke)
+    }
+  },
+
+  drawStroke(stroke) {
+    const points = stroke.points
+
+    if (!points.length) {
+      return
+    }
+
+    this.ctx.beginPath()
+    this.applyStrokeStyle(stroke)
+    this.ctx.moveTo(points[0].x, points[0].y)
+
+    if (points.length === 1) {
+      this.ctx.lineTo(points[0].x + 0.1, points[0].y + 0.1)
+    } else {
+      for (let i = 1; i < points.length; i += 1) {
+        this.ctx.lineTo(points[i].x, points[i].y)
+      }
+    }
+
+    this.ctx.stroke()
+  },
+
+  clearCanvas() {
+    this.strokes = []
+    this.currentStroke = null
+    this.isDrawing = false
+    this.redrawCanvas()
   },
 
   async saveSignature() {
@@ -123,7 +187,7 @@ Page({
       return
     }
 
-    if (!this.hasDrawing) {
+    if (!this.strokes.length) {
       wx.showToast({
         title: '请先书写签名',
         icon: 'none'
@@ -137,6 +201,7 @@ Page({
         mask: true
       })
 
+      this.redrawCanvas()
       await this.ensureAlbumPermission()
       const tempFilePath = await this.canvasToTempFilePath()
 

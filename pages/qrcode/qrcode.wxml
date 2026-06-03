@@ -10,15 +10,15 @@
     ></textarea>
     <button class="primary-button" bindtap="generateQrCode">生成二维码</button>
 
-    <view wx:if="{{qrImageUrl}}" class="qr-preview">
-      <image class="qr-image" src="{{qrImageUrl}}" mode="aspectFit" show-menu-by-longpress />
+    <view wx:if="{{qrImagePath}}" class="qr-preview">
+      <image class="qr-image" src="{{qrImagePath}}" mode="aspectFit" show-menu-by-longpress />
       <button class="secondary-button" bindtap="saveQrCode">保存到相册</button>
     </view>
   </view>
 
   <view class="section">
     <view class="section-title">二维码解码</view>
-    <button class="primary-button" bindtap="scanQrCode">从相册选择二维码解码</button>
+    <button class="primary-button" bindtap="chooseQrImage">从相册选择二维码解码</button>
 
     <view class="decode-result">
       <text wx:if="{{scanResult}}" selectable>{{scanResult}}</text>
@@ -33,4 +33,7 @@
       一键复制
     </button>
   </view>
+
+  <canvas id="qrCanvas" type="2d" class="hidden-canvas"></canvas>
+  <canvas id="decodeCanvas" type="2d" class="hidden-canvas"></canvas>
 </view>

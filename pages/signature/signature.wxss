@@ -14,7 +14,6 @@ page {
   flex: 1;
   margin: 24rpx;
   overflow: hidden;
-  background: #FFFFFF;
   border-radius: 20rpx;
   box-shadow: 0 8rpx 28rpx rgba(20, 28, 40, 0.06);
 }
@@ -24,11 +23,49 @@ page {
   height: 100%;
 }
 
+.control-panel {
+  padding: 20rpx 32rpx calc(24rpx + env(safe-area-inset-bottom));
+  background: #F7F8FA;
+}
+
+.control-row,
+.slider-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18rpx;
+}
+
+.control-label {
+  width: 150rpx;
+  color: #333333;
+  font-size: 26rpx;
+}
+
+.swatch-list {
+  display: flex;
+  flex: 1;
+  gap: 18rpx;
+}
+
+.swatch {
+  width: 44rpx;
+  height: 44rpx;
+  border: 2rpx solid #DADDE3;
+  border-radius: 50%;
+}
+
+.swatch-active {
+  border: 6rpx solid #1677FF;
+}
+
+.line-slider {
+  flex: 1;
+}
+
 .toolbar {
   display: flex;
   gap: 24rpx;
-  padding: 24rpx 32rpx calc(24rpx + env(safe-area-inset-bottom));
-  background: #F7F8FA;
+  margin-top: 8rpx;
 }
 
 .clear-button,
