@@ -1,49 +1,251 @@
-// index.js
-const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
-
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {
-      avatarUrl: defaultAvatarUrl,
-      nickName: '',
-    },
-    hasUserInfo: false,
-    canIUseGetUserProfile: wx.canIUse('getUserProfile'),
-    canIUseNicknameComp: wx.canIUse('input.type.nickname'),
+    pieces: [],
+    emptyCells: [0, 1, 2, 3, 4, 5, 6, 7, 8]
   },
-  bindViewTap() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
-  },
-  onChooseAvatar(e) {
-    const { avatarUrl } = e.detail
-    const { nickName } = this.data.userInfo
-    this.setData({
-      "userInfo.avatarUrl": avatarUrl,
-      hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
-    })
-  },
-  onInputChange(e) {
-    const nickName = e.detail.value
-    const { avatarUrl } = this.data.userInfo
-    this.setData({
-      "userInfo.nickName": nickName,
-      hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
-    })
-  },
-  getUserProfile(e) {
-    // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
-    wx.getUserProfile({
-      desc: '展示用户信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
-      success: (res) => {
-        console.log(res)
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
+
+  async chooseImage() {
+    try {
+      const mediaRes = await wx.chooseMedia({
+        count: 1,
+        mediaType: ['image'],
+        sourceType: ['album'],
+        sizeType: ['original', 'compressed']
+      })
+
+      const filePath = mediaRes.tempFiles[0].tempFilePath
+
+      wx.showLoading({
+        title: '切图中...',
+        mask: true
+      })
+
+      const pieces = await this.createNineGridImages(filePath)
+      this.setData({ pieces })
+    } catch (err) {
+      if (!this.isCancelError(err)) {
+        wx.showToast({
+          title: '切图失败',
+          icon: 'none'
         })
       }
+    } finally {
+      wx.hideLoading()
+    }
+  },
+
+  async createNineGridImages(filePath) {
+    const [canvas, imageInfo] = await Promise.all([
+      this.getCanvas(),
+      this.getImageInfo(filePath)
+    ])
+    const ctx = canvas.getContext('2d')
+    const image = await this.loadCanvasImage(canvas, imageInfo.path)
+
+    const cropSize = Math.min(imageInfo.width, imageInfo.height)
+    const sourceX = (imageInfo.width - cropSize) / 2
+    const sourceY = (imageInfo.height - cropSize) / 2
+    const sourcePieceSize = cropSize / 3
+    const outputSize = Math.max(300, Math.min(Math.floor(sourcePieceSize), 1080))
+    const pieces = []
+
+    canvas.width = outputSize
+    canvas.height = outputSize
+
+    for (let row = 0; row < 3; row += 1) {
+      for (let col = 0; col < 3; col += 1) {
+        ctx.clearRect(0, 0, outputSize, outputSize)
+        ctx.drawImage(
+          image,
+          sourceX + col * sourcePieceSize,
+          sourceY + row * sourcePieceSize,
+          sourcePieceSize,
+          sourcePieceSize,
+          0,
+          0,
+          outputSize,
+          outputSize
+        )
+
+        const tempFilePath = await this.canvasToTempFilePath(canvas, outputSize)
+        pieces.push(tempFilePath)
+      }
+    }
+
+    return pieces
+  },
+
+  getCanvas() {
+    return new Promise((resolve, reject) => {
+      wx.createSelectorQuery()
+        .in(this)
+        .select('#cropCanvas')
+        .fields({ node: true, size: true })
+        .exec((res) => {
+          const canvas = res && res[0] && res[0].node
+
+          if (canvas) {
+            resolve(canvas)
+          } else {
+            reject(new Error('Canvas 节点不存在'))
+          }
+        })
     })
   },
+
+  getImageInfo(filePath) {
+    return new Promise((resolve, reject) => {
+      wx.getImageInfo({
+        src: filePath,
+        success: resolve,
+        fail: reject
+      })
+    })
+  },
+
+  loadCanvasImage(canvas, src) {
+    return new Promise((resolve, reject) => {
+      const image = canvas.createImage()
+
+      image.onload = () => resolve(image)
+      image.onerror = reject
+      image.src = src
+    })
+  },
+
+  canvasToTempFilePath(canvas, size) {
+    return new Promise((resolve, reject) => {
+      wx.canvasToTempFilePath({
+        canvas,
+        x: 0,
+        y: 0,
+        width: size,
+        height: size,
+        destWidth: size,
+        destHeight: size,
+        fileType: 'jpg',
+        quality: 1,
+        success: (res) => resolve(res.tempFilePath),
+        fail: reject
+      })
+    })
+  },
+
+  async saveAllImages() {
+    if (this.data.pieces.length !== 9) {
+      return
+    }
+
+    try {
+      await this.ensureAlbumPermission()
+
+      wx.showLoading({
+        title: '保存中...',
+        mask: true
+      })
+
+      for (const filePath of this.data.pieces) {
+        await this.saveImage(filePath)
+      }
+
+      wx.showToast({
+        title: '保存成功',
+        icon: 'success'
+      })
+    } catch (err) {
+      if (!this.isCancelError(err)) {
+        wx.showToast({
+          title: '保存失败',
+          icon: 'none'
+        })
+      }
+    } finally {
+      wx.hideLoading()
+    }
+  },
+
+  async ensureAlbumPermission() {
+    const setting = await this.getSetting()
+    const authSetting = setting.authSetting || {}
+    const scope = 'scope.writePhotosAlbum'
+
+    if (authSetting[scope]) {
+      return
+    }
+
+    if (authSetting[scope] === false) {
+      await this.showOpenSettingModal()
+      const nextSetting = await this.openSetting()
+
+      if (!nextSetting.authSetting || !nextSetting.authSetting[scope]) {
+        throw new Error('未授权保存相册')
+      }
+
+      return
+    }
+
+    await this.authorize(scope)
+  },
+
+  getSetting() {
+    return new Promise((resolve, reject) => {
+      wx.getSetting({
+        success: resolve,
+        fail: reject
+      })
+    })
+  },
+
+  authorize(scope) {
+    return new Promise((resolve, reject) => {
+      wx.authorize({
+        scope,
+        success: resolve,
+        fail: reject
+      })
+    })
+  },
+
+  showOpenSettingModal() {
+    return new Promise((resolve, reject) => {
+      wx.showModal({
+        title: '需要相册权限',
+        content: '请在设置中允许保存图片到相册。',
+        confirmText: '去设置',
+        success: (res) => {
+          if (res.confirm) {
+            resolve()
+          } else {
+            reject(new Error('用户取消授权设置'))
+          }
+        },
+        fail: reject
+      })
+    })
+  },
+
+  openSetting() {
+    return new Promise((resolve, reject) => {
+      wx.openSetting({
+        success: resolve,
+        fail: reject
+      })
+    })
+  },
+
+  saveImage(filePath) {
+    return new Promise((resolve, reject) => {
+      wx.saveImageToPhotosAlbum({
+        filePath,
+        success: resolve,
+        fail: reject
+      })
+    })
+  },
+
+  isCancelError(err) {
+    const message = String((err && (err.errMsg || err.message)) || '')
+
+    return message.includes('cancel')
+  }
 })

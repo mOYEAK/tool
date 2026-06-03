@@ -1,62 +1,64 @@
-/**index.wxss**/
 page {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-.scrollarea {
-  flex: 1;
-  overflow-y: hidden;
+  min-height: 100vh;
+  background: #F7F8FA;
 }
 
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #aaa;
-  width: 80%;
+.page {
+  min-height: 100vh;
+  padding: 32rpx;
 }
 
-.userinfo-avatar {
-  overflow: hidden;
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.usermotto {
-  margin-top: 200px;
-}
-
-.avatar-wrapper {
-  padding: 0;
-  width: 56px !important;
-  border-radius: 8px;
-  margin-top: 40px;
-  margin-bottom: 40px;
-}
-
-.avatar {
-  display: block;
-  width: 56px;
-  height: 56px;
-}
-
-.nickname-wrapper {
-  display: flex;
+.primary-button,
+.save-button {
   width: 100%;
-  padding: 16px;
-  box-sizing: border-box;
-  border-top: .5px solid rgba(0, 0, 0, 0.1);
-  border-bottom: .5px solid rgba(0, 0, 0, 0.1);
-  color: black;
+  height: 96rpx;
+  line-height: 96rpx;
+  border-radius: 12rpx;
+  font-size: 32rpx;
 }
 
-.nickname-label {
-  width: 105px;
+.primary-button {
+  color: #FFFFFF;
+  background: #1677FF;
 }
 
-.nickname-input {
-  flex: 1;
+.save-button {
+  margin-top: 40rpx;
+  color: #FFFFFF;
+  background: #07C160;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8rpx;
+  width: 100%;
+  margin-top: 48rpx;
+  padding: 8rpx;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+}
+
+.grid-image,
+.grid-placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 8rpx;
+}
+
+.grid-image {
+  display: block;
+  background: #EEF0F3;
+}
+
+.grid-placeholder {
+  background: #EEF0F3;
+}
+
+.crop-canvas {
+  position: fixed;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
 }
