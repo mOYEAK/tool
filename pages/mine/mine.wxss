@@ -1,8 +1,89 @@
 page {
+  min-height: 100vh;
   background: #F7F8FA;
 }
 
 .page {
   min-height: 100vh;
   padding: 32rpx;
+}
+
+.profile-card,
+.section {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  padding: 36rpx 32rpx;
+}
+
+.app-logo {
+  width: 96rpx;
+  height: 96rpx;
+  margin-right: 24rpx;
+  font-size: 56rpx;
+  line-height: 96rpx;
+  text-align: center;
+  background: #EEF4FF;
+  border-radius: 24rpx;
+}
+
+.app-name {
+  color: #111111;
+  font-size: 36rpx;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.app-desc {
+  margin-top: 6rpx;
+  color: #7A7F87;
+  font-size: 26rpx;
+}
+
+.section {
+  margin-top: 28rpx;
+  padding: 28rpx 32rpx;
+}
+
+.section-title {
+  margin-bottom: 12rpx;
+  color: #333333;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.row,
+.plain-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 88rpx;
+  padding: 0;
+  color: #111111;
+  font-size: 28rpx;
+  background: transparent;
+  border: 0;
+  border-bottom: 1rpx solid #EEF0F3;
+  border-radius: 0;
+  text-align: left;
+}
+
+.row:last-child,
+.plain-row:last-child {
+  border-bottom: 0;
+}
+
+.row-extra {
+  max-width: 390rpx;
+  color: #8A8F99;
+  font-size: 24rpx;
+  text-align: right;
+}
+
+.plain-row::after {
+  border: 0;
 }

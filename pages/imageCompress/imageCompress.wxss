@@ -1,0 +1,127 @@
+page {
+  min-height: 100vh;
+  background: #F7F8FA;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 32rpx;
+}
+
+.section {
+  margin-top: 32rpx;
+  padding: 32rpx 28rpx;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+}
+
+.section-title {
+  margin-bottom: 24rpx;
+  color: #111111;
+  font-size: 34rpx;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.primary-button,
+.save-button {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+}
+
+.primary-button {
+  color: #FFFFFF;
+  background: #1677FF;
+}
+
+.save-button {
+  margin-top: 24rpx;
+  color: #FFFFFF;
+  background: #07C160;
+}
+
+.action-button {
+  margin-top: 28rpx;
+}
+
+.preview-card {
+  overflow: hidden;
+  background: #F7F8FA;
+  border-radius: 16rpx;
+}
+
+.preview-image {
+  display: block;
+  width: 100%;
+  height: 420rpx;
+  background: #EEF0F3;
+}
+
+.file-info {
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx 24rpx;
+  color: #333333;
+  font-size: 26rpx;
+}
+
+.control-row,
+.slider-row {
+  margin-top: 28rpx;
+}
+
+.control-label {
+  display: block;
+  margin-bottom: 16rpx;
+  color: #333333;
+  font-size: 28rpx;
+}
+
+.format-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.format-item {
+  height: 76rpx;
+  color: #333333;
+  font-size: 28rpx;
+  line-height: 76rpx;
+  text-align: center;
+  background: #F7F8FA;
+  border: 1rpx solid #DADDE3;
+  border-radius: 12rpx;
+}
+
+.format-active {
+  color: #1677FF;
+  background: #EEF4FF;
+  border-color: #1677FF;
+}
+
+.quality-slider {
+  width: 100%;
+}
+
+.empty-state {
+  margin-top: 32rpx;
+  padding: 80rpx 40rpx;
+  color: #8A8F99;
+  font-size: 28rpx;
+  line-height: 1.6;
+  text-align: center;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+}
+
+.hidden-canvas {
+  position: fixed;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+}

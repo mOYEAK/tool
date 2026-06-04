@@ -1,0 +1,195 @@
+page {
+  min-height: 100vh;
+  background: #F7F8FA;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 32rpx;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+  padding: 8rpx;
+  background: #FFFFFF;
+  border-radius: 18rpx;
+}
+
+.tab {
+  height: 72rpx;
+  color: #666666;
+  font-size: 28rpx;
+  line-height: 72rpx;
+  text-align: center;
+  border-radius: 14rpx;
+}
+
+.tab-active {
+  color: #1677FF;
+  font-weight: 600;
+  background: #EEF4FF;
+}
+
+.section {
+  margin-top: 28rpx;
+  padding: 32rpx 28rpx;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+}
+
+.section-title {
+  margin-bottom: 24rpx;
+  color: #111111;
+  font-size: 34rpx;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.option-title {
+  margin-top: 32rpx;
+  margin-bottom: 18rpx;
+  color: #333333;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.primary-button,
+.save-button {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+}
+
+.primary-button {
+  color: #FFFFFF;
+  background: #1677FF;
+}
+
+.save-button {
+  margin-top: 24rpx;
+  color: #FFFFFF;
+  background: #07C160;
+}
+
+.action-button {
+  margin-top: 32rpx;
+}
+
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18rpx;
+}
+
+.template-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 154rpx;
+  padding: 18rpx 8rpx;
+  background: #F7F8FA;
+  border: 2rpx solid transparent;
+  border-radius: 16rpx;
+}
+
+.template-active {
+  background: #EEF4FF;
+  border-color: #1677FF;
+}
+
+.template-phone {
+  width: 52rpx;
+  height: 92rpx;
+  border-radius: 14rpx;
+  background: #111111;
+}
+
+.template-phone.ios {
+  border: 6rpx solid #111111;
+  background: #FFFFFF;
+}
+
+.template-phone.fullscreen {
+  border: 6rpx solid #333333;
+  background: #DDEBFF;
+}
+
+.template-name {
+  margin-top: 12rpx;
+  color: #333333;
+  font-size: 23rpx;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.color-preview,
+.wallpaper-preview {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 18rpx;
+}
+
+.softBlue {
+  background: linear-gradient(135deg, #DCEBFF, #F7F8FA);
+}
+
+.warmPink {
+  background: linear-gradient(135deg, #FFE4E6, #FFF7E6);
+}
+
+.darkTech {
+  background: linear-gradient(135deg, #111827, #334155);
+}
+
+.pureLight {
+  background: #F7F8FA;
+}
+
+.sunset {
+  background: linear-gradient(135deg, #FF8A00, #FF5E7E);
+}
+
+.ocean {
+  background: linear-gradient(135deg, #1677FF, #00C2A8);
+}
+
+.night {
+  background: linear-gradient(135deg, #111827, #4C1D95);
+}
+
+.text-input {
+  width: 100%;
+  min-height: 180rpx;
+  margin-top: 28rpx;
+  padding: 24rpx;
+  color: #111111;
+  font-size: 28rpx;
+  line-height: 1.6;
+  background: #F7F8FA;
+  border-radius: 16rpx;
+}
+
+.result-section {
+  padding-bottom: 28rpx;
+}
+
+.result-image {
+  display: block;
+  width: 100%;
+  height: 760rpx;
+  background: #F7F8FA;
+  border-radius: 16rpx;
+}
+
+.hidden-canvas {
+  position: fixed;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+}

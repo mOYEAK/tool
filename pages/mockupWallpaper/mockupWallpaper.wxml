@@ -1,0 +1,87 @@
+<view class="page">
+  <view class="tabs">
+    <view
+      class="tab {{mode === 'mockup' ? 'tab-active' : ''}}"
+      data-mode="mockup"
+      bindtap="switchMode"
+    >
+      带壳截图
+    </view>
+    <view
+      class="tab {{mode === 'wallpaper' ? 'tab-active' : ''}}"
+      data-mode="wallpaper"
+      bindtap="switchMode"
+    >
+      壁纸制作
+    </view>
+  </view>
+
+  <view wx:if="{{mode === 'mockup'}}" class="section">
+    <view class="section-title">上传手机截图</view>
+    <button class="primary-button" bindtap="chooseScreenshot">选择截图</button>
+
+    <view class="option-title">手机壳模板</view>
+    <view class="template-grid">
+      <view
+        wx:for="{{shellTemplates}}"
+        wx:key="id"
+        class="template-card {{shellTemplate === item.id ? 'template-active' : ''}}"
+        data-id="{{item.id}}"
+        bindtap="selectShellTemplate"
+      >
+        <view class="template-phone {{item.id}}"></view>
+        <view class="template-name">{{item.name}}</view>
+      </view>
+    </view>
+
+    <view class="option-title">背景风格</view>
+    <view class="template-grid">
+      <view
+        wx:for="{{backgroundPresets}}"
+        wx:key="id"
+        class="template-card {{mockupBackground === item.id ? 'template-active' : ''}}"
+        data-id="{{item.id}}"
+        bindtap="selectMockupBackground"
+      >
+        <view class="color-preview {{item.id}}"></view>
+        <view class="template-name">{{item.name}}</view>
+      </view>
+    </view>
+
+    <button class="primary-button action-button" bindtap="generateMockup">生成带壳图</button>
+  </view>
+
+  <view wx:if="{{mode === 'wallpaper'}}" class="section">
+    <view class="section-title">壁纸样式</view>
+    <view class="template-grid">
+      <view
+        wx:for="{{wallpaperPresets}}"
+        wx:key="id"
+        class="template-card {{wallpaperPreset === item.id ? 'template-active' : ''}}"
+        data-id="{{item.id}}"
+        bindtap="selectWallpaperPreset"
+      >
+        <view class="wallpaper-preview {{item.id}}"></view>
+        <view class="template-name">{{item.name}}</view>
+      </view>
+    </view>
+
+    <textarea
+      class="text-input"
+      value="{{wallpaperText}}"
+      placeholder="添加一句本地文字，例如：保持热爱，奔赴山海"
+      maxlength="60"
+      bindinput="onWallpaperTextInput"
+    ></textarea>
+
+    <button class="primary-button action-button" bindtap="generateWallpaper">生成壁纸</button>
+  </view>
+
+  <view wx:if="{{resultPath}}" class="section result-section">
+    <view class="section-title">生成结果</view>
+    <image class="result-image" src="{{resultPath}}" mode="aspectFit" />
+    <button class="save-button" bindtap="saveResult">保存到相册</button>
+  </view>
+
+  <canvas id="posterCanvas" type="2d" class="hidden-canvas"></canvas>
+</view>

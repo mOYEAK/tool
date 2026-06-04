@@ -1,0 +1,71 @@
+<view class="page">
+  <button class="primary-button" bindtap="chooseImage">选择图片</button>
+
+  <view wx:if="{{imagePath}}" class="section">
+    <view class="section-title">压缩设置</view>
+
+    <view class="preview-card">
+      <image class="preview-image" src="{{imagePath}}" mode="aspectFit" />
+      <view class="file-info">
+        <text>原图大小</text>
+        <text>{{originalSizeText}}</text>
+      </view>
+    </view>
+
+    <view class="control-row">
+      <text class="control-label">导出格式</text>
+      <view class="format-group">
+        <view
+          class="format-item {{outputFormat === 'jpg' ? 'format-active' : ''}}"
+          data-format="jpg"
+          bindtap="changeFormat"
+        >
+          JPG
+        </view>
+        <view
+          class="format-item {{outputFormat === 'png' ? 'format-active' : ''}}"
+          data-format="png"
+          bindtap="changeFormat"
+        >
+          PNG
+        </view>
+      </view>
+    </view>
+
+    <view class="slider-row">
+      <text class="control-label">质量 {{quality}}%</text>
+      <slider
+        class="quality-slider"
+        min="10"
+        max="100"
+        step="5"
+        value="{{quality}}"
+        activeColor="#1677FF"
+        backgroundColor="#DADDE3"
+        block-size="22"
+        bindchanging="changeQuality"
+        bindchange="changeQuality"
+      />
+    </view>
+
+    <button class="primary-button action-button" bindtap="compressImage">生成压缩图</button>
+  </view>
+
+  <view wx:if="{{compressedPath}}" class="section">
+    <view class="section-title">压缩结果</view>
+    <view class="preview-card">
+      <image class="preview-image" src="{{compressedPath}}" mode="aspectFit" />
+      <view class="file-info">
+        <text>压缩后大小</text>
+        <text>{{compressedSizeText}}</text>
+      </view>
+    </view>
+    <button class="save-button" bindtap="saveCompressedImage">保存到相册</button>
+  </view>
+
+  <view wx:if="{{!imagePath}}" class="empty-state">
+    请选择一张图片开始压缩或转换格式
+  </view>
+
+  <canvas id="compressCanvas" type="2d" class="hidden-canvas"></canvas>
+</view>

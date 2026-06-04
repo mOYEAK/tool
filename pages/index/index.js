@@ -21,5 +21,17 @@ Page({
     wx.navigateTo({
       url: '/pages/signature/signature'
     })
+  },
+
+  MapsToImageCompress() {
+    wx.navigateTo({
+      url: '/pages/imageCompress/imageCompress'
+    })
+  },
+
+  MapsToMockupWallpaper() {
+    wx.navigateTo({
+      url: '/pages/mockupWallpaper/mockupWallpaper'
+    })
   }
 })

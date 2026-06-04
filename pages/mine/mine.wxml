@@ -1,2 +1,31 @@
 <view class="page">
+  <view class="profile-card">
+    <view class="app-logo">🧰</view>
+    <view>
+      <view class="app-name">万能工具箱</view>
+      <view class="app-desc">轻量、纯本地、即开即用</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">使用与反馈</view>
+    <button class="plain-row" open-type="feedback">意见反馈</button>
+    <button class="plain-row" open-type="contact">联系客服</button>
+    <view class="row" bindtap="copyEmail">
+      <text>联系邮箱</text>
+      <text class="row-extra">support@example.com</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">关于</view>
+    <view class="row">
+      <text>隐私说明</text>
+      <text class="row-extra">所有工具优先本地处理</text>
+    </view>
+    <view class="row">
+      <text>当前版本</text>
+      <text class="row-extra">V1.0</text>
+    </view>
+  </view>
 </view>

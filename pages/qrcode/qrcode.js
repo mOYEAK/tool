@@ -1,5 +1,6 @@
 const qrcode = require('../../utils/qrcode-generator.js')
 const jsQR = require('../../utils/jsqr.js')
+const { ensureAlbumPermission, saveImageToAlbum } = require('../../utils/album.js')
 
 Page({
   data: {
@@ -91,8 +92,8 @@ Page({
         mask: true
       })
 
-      await this.ensureAlbumPermission()
-      await this.saveImage(this.data.qrImagePath)
+      await ensureAlbumPermission()
+      await saveImageToAlbum(this.data.qrImagePath)
 
       wx.showToast({
         title: '保存成功',
@@ -239,85 +240,6 @@ Page({
         destHeight: height,
         fileType: 'png',
         success: (res) => resolve(res.tempFilePath),
-        fail: reject
-      })
-    })
-  },
-
-  async ensureAlbumPermission() {
-    const setting = await this.getSetting()
-    const authSetting = setting.authSetting || {}
-    const scope = 'scope.writePhotosAlbum'
-
-    if (authSetting[scope]) {
-      return
-    }
-
-    if (authSetting[scope] === false) {
-      await this.showOpenSettingModal()
-      const nextSetting = await this.openSetting()
-
-      if (!nextSetting.authSetting || !nextSetting.authSetting[scope]) {
-        throw new Error('未授权保存相册')
-      }
-
-      return
-    }
-
-    await this.authorize(scope)
-  },
-
-  getSetting() {
-    return new Promise((resolve, reject) => {
-      wx.getSetting({
-        success: resolve,
-        fail: reject
-      })
-    })
-  },
-
-  authorize(scope) {
-    return new Promise((resolve, reject) => {
-      wx.authorize({
-        scope,
-        success: resolve,
-        fail: reject
-      })
-    })
-  },
-
-  showOpenSettingModal() {
-    return new Promise((resolve, reject) => {
-      wx.showModal({
-        title: '需要相册权限',
-        content: '请在设置中允许保存图片到相册。',
-        confirmText: '去设置',
-        success: (res) => {
-          if (res.confirm) {
-            resolve()
-          } else {
-            reject(new Error('用户取消授权设置'))
-          }
-        },
-        fail: reject
-      })
-    })
-  },
-
-  openSetting() {
-    return new Promise((resolve, reject) => {
-      wx.openSetting({
-        success: resolve,
-        fail: reject
-      })
-    })
-  },
-
-  saveImage(filePath) {
-    return new Promise((resolve, reject) => {
-      wx.saveImageToPhotosAlbum({
-        filePath,
-        success: resolve,
         fail: reject
       })
     })
