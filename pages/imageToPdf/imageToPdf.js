@@ -1,38 +1,47 @@
-const { ensureAlbumPermission, saveImageToAlbum } = require('../../utils/album.js')
+const { createPdfFromJpegs } = require('../../services/pdf.js')
 
 Page({
   data: {
-    imagePath: '',
-    compressedPath: '',
-    originalSizeText: '',
-    compressedSizeText: '',
-    quality: 80,
-    outputFormat: 'jpg',
-    imageInfo: null,
-    isGenerating: false,
-    isSaving: false
+    images: [],
+    pdfPath: '',
+    pdfSizeText: '',
+    isGenerating: false
   },
 
-  async chooseImage() {
+  async chooseImages() {
     try {
+      const restCount = Math.max(0, 9 - this.data.images.length)
+
+      if (!restCount) {
+        wx.showToast({
+          title: '最多选择 9 张',
+          icon: 'none'
+        })
+        return
+      }
+
       const res = await wx.chooseMedia({
-        count: 1,
+        count: restCount,
         mediaType: ['image'],
         sourceType: ['album'],
         sizeType: ['original', 'compressed']
       })
-      const file = res.tempFiles[0]
-      const [imageInfo, fileSize] = await Promise.all([
-        this.getImageInfo(file.tempFilePath),
-        this.getFileSize(file.tempFilePath, file.size)
-      ])
+      const nextImages = []
+
+      for (const file of res.tempFiles) {
+        const size = await this.getFileSize(file.tempFilePath, file.size)
+
+        nextImages.push({
+          id: `${Date.now()}_${Math.random()}`,
+          path: file.tempFilePath,
+          sizeText: this.formatSize(size)
+        })
+      }
 
       this.setData({
-        imagePath: file.tempFilePath,
-        compressedPath: '',
-        originalSizeText: this.formatSize(fileSize),
-        compressedSizeText: '',
-        imageInfo
+        images: this.data.images.concat(nextImages),
+        pdfPath: '',
+        pdfSizeText: ''
       })
     } catch (err) {
       if (!this.isCancelError(err)) {
@@ -44,28 +53,58 @@ Page({
     }
   },
 
-  changeQuality(e) {
+  deleteImage(e) {
+    const index = e.currentTarget.dataset.index
+    const images = this.data.images.slice()
+
+    images.splice(index, 1)
     this.setData({
-      quality: e.detail.value,
-      compressedPath: '',
-      compressedSizeText: ''
+      images,
+      pdfPath: '',
+      pdfSizeText: ''
     })
   },
 
-  changeFormat(e) {
+  moveUp(e) {
+    const index = e.currentTarget.dataset.index
+
+    if (index <= 0) {
+      return
+    }
+
+    this.swapImages(index, index - 1)
+  },
+
+  moveDown(e) {
+    const index = e.currentTarget.dataset.index
+
+    if (index >= this.data.images.length - 1) {
+      return
+    }
+
+    this.swapImages(index, index + 1)
+  },
+
+  swapImages(fromIndex, toIndex) {
+    const images = this.data.images.slice()
+    const temp = images[fromIndex]
+
+    images[fromIndex] = images[toIndex]
+    images[toIndex] = temp
+
     this.setData({
-      outputFormat: e.currentTarget.dataset.format,
-      compressedPath: '',
-      compressedSizeText: ''
+      images,
+      pdfPath: '',
+      pdfSizeText: ''
     })
   },
 
-  async compressImage() {
+  async generatePdf() {
     if (this.data.isGenerating) {
       return
     }
 
-    if (!this.data.imagePath || !this.data.imageInfo) {
+    if (!this.data.images.length) {
       wx.showToast({
         title: '请先选择图片',
         icon: 'none'
@@ -75,21 +114,32 @@ Page({
 
     try {
       wx.showLoading({
-        title: '处理中...',
+        title: '生成中...',
         mask: true
       })
       this.setData({ isGenerating: true })
 
-      const compressedPath = await this.createCompressedImage()
-      const compressedSize = await this.getFileSize(compressedPath)
+      const jpegItems = []
+
+      for (const item of this.data.images) {
+        jpegItems.push(await this.convertImageToJpeg(item.path))
+      }
+
+      const pdfPath = await createPdfFromJpegs(jpegItems)
+      const size = await this.getFileSize(pdfPath)
 
       this.setData({
-        compressedPath,
-        compressedSizeText: this.formatSize(compressedSize)
+        pdfPath,
+        pdfSizeText: this.formatSize(size)
+      })
+
+      wx.showToast({
+        title: '生成成功',
+        icon: 'success'
       })
     } catch (err) {
       wx.showToast({
-        title: '处理失败',
+        title: '生成失败',
         icon: 'none'
       })
     } finally {
@@ -98,68 +148,56 @@ Page({
     }
   },
 
-  async createCompressedImage() {
-    const canvas = await this.getCanvas()
+  async convertImageToJpeg(filePath) {
+    const [canvas, imageInfo] = await Promise.all([
+      this.getCanvas(),
+      this.getImageInfo(filePath)
+    ])
     const ctx = canvas.getContext('2d')
-    const imageInfo = this.data.imageInfo
     const image = await this.loadCanvasImage(canvas, imageInfo.path)
-    const maxSide = 2000
+    const maxSide = 1800
     const scale = Math.min(1, maxSide / Math.max(imageInfo.width, imageInfo.height))
     const width = Math.max(1, Math.round(imageInfo.width * scale))
     const height = Math.max(1, Math.round(imageInfo.height * scale))
-    const fileType = this.data.outputFormat
 
     canvas.width = width
     canvas.height = height
-    ctx.clearRect(0, 0, width, height)
-
-    if (fileType === 'jpg') {
-      ctx.fillStyle = '#FFFFFF'
-      ctx.fillRect(0, 0, width, height)
-    }
-
+    ctx.fillStyle = '#FFFFFF'
+    ctx.fillRect(0, 0, width, height)
     ctx.drawImage(image, 0, 0, width, height)
 
-    return this.canvasToTempFilePath(canvas, width, height, fileType, this.data.quality / 100)
+    const jpgPath = await this.canvasToTempFilePath(canvas, width, height)
+
+    return {
+      path: jpgPath,
+      width,
+      height
+    }
   },
 
-  async saveCompressedImage() {
-    if (this.data.isSaving || !this.data.compressedPath) {
+  previewPdf() {
+    if (!this.data.pdfPath) {
       return
     }
 
-    try {
-      wx.showLoading({
-        title: '保存中...',
-        mask: true
-      })
-      this.setData({ isSaving: true })
-
-      await ensureAlbumPermission()
-      await saveImageToAlbum(this.data.compressedPath)
-
-      wx.showToast({
-        title: '保存成功',
-        icon: 'success'
-      })
-    } catch (err) {
-      if (!this.isCancelError(err)) {
+    wx.openDocument({
+      filePath: this.data.pdfPath,
+      fileType: 'pdf',
+      showMenu: true,
+      fail: () => {
         wx.showToast({
-          title: '保存失败',
+          title: '预览失败',
           icon: 'none'
         })
       }
-    } finally {
-      this.setData({ isSaving: false })
-      wx.hideLoading()
-    }
+    })
   },
 
   getCanvas() {
     return new Promise((resolve, reject) => {
       wx.createSelectorQuery()
         .in(this)
-        .select('#compressCanvas')
+        .select('#pdfCanvas')
         .fields({ node: true, size: true })
         .exec((res) => {
           const canvas = res && res[0] && res[0].node
@@ -207,7 +245,7 @@ Page({
     })
   },
 
-  canvasToTempFilePath(canvas, width, height, fileType, quality) {
+  canvasToTempFilePath(canvas, width, height) {
     return new Promise((resolve, reject) => {
       wx.canvasToTempFilePath({
         canvas,
@@ -217,8 +255,8 @@ Page({
         height,
         destWidth: width,
         destHeight: height,
-        fileType,
-        quality,
+        fileType: 'jpg',
+        quality: 0.92,
         success: (res) => resolve(res.tempFilePath),
         fail: reject
       })

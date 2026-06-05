@@ -18,7 +18,7 @@
 
   <view wx:if="{{mode === 'mockup'}}" class="section">
     <view class="section-title">上传手机截图</view>
-    <button class="primary-button" bindtap="chooseScreenshot">选择截图</button>
+    <button class="primary-button" bindtap="chooseScreenshot" disabled="{{isGenerating}}">选择截图</button>
 
     <view class="option-title">手机壳模板</view>
     <view class="template-grid">
@@ -48,7 +48,7 @@
       </view>
     </view>
 
-    <button class="primary-button action-button" bindtap="generateMockup">生成带壳图</button>
+    <button class="primary-button action-button" bindtap="generateMockup" disabled="{{isGenerating}}">生成带壳图</button>
   </view>
 
   <view wx:if="{{mode === 'wallpaper'}}" class="section">
@@ -74,13 +74,13 @@
       bindinput="onWallpaperTextInput"
     ></textarea>
 
-    <button class="primary-button action-button" bindtap="generateWallpaper">生成壁纸</button>
+    <button class="primary-button action-button" bindtap="generateWallpaper" disabled="{{isGenerating}}">生成壁纸</button>
   </view>
 
   <view wx:if="{{resultPath}}" class="section result-section">
     <view class="section-title">生成结果</view>
     <image class="result-image" src="{{resultPath}}" mode="aspectFit" />
-    <button class="save-button" bindtap="saveResult">保存到相册</button>
+    <button class="save-button" bindtap="saveResult" disabled="{{isSaving}}">保存到相册</button>
   </view>
 
   <canvas id="posterCanvas" type="2d" class="hidden-canvas"></canvas>

@@ -59,7 +59,7 @@
 
     <view class="toolbar">
       <button class="clear-button" bindtap="clearCanvas">清除重写</button>
-      <button class="save-button" bindtap="saveSignature">保存签名</button>
+      <button class="save-button" bindtap="saveSignature" disabled="{{isSaving}}">保存签名</button>
     </view>
   </view>
 </view>

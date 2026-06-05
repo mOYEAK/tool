@@ -1,37 +1,94 @@
+const tools = require('../../modules/tools.js')
+
 Page({
-  MapsToGridCut() {
-    wx.navigateTo({
-      url: '/pages/gridCut/gridCut'
+  data: {
+    keyword: '',
+    toolGroups: [],
+    hasTools: true
+  },
+
+  onLoad() {
+    this.refreshTools()
+  },
+
+  onSearchInput(e) {
+    this.setData({
+      keyword: e.detail.value
+    }, () => {
+      this.refreshTools()
     })
   },
 
-  MapsToLongPic() {
-    wx.navigateTo({
-      url: '/pages/longPic/longPic'
+  clearSearch() {
+    this.setData({
+      keyword: ''
+    }, () => {
+      this.refreshTools()
     })
   },
 
-  MapsToQrCode() {
-    wx.navigateTo({
-      url: '/pages/qrcode/qrcode'
+  refreshTools() {
+    const keyword = this.data.keyword.trim().toLowerCase()
+    const visibleTools = tools
+      .filter((tool) => tool.enabled)
+      .filter((tool) => {
+        if (!keyword) {
+          return true
+        }
+
+        return [tool.name, tool.category, tool.key]
+          .join(' ')
+          .toLowerCase()
+          .includes(keyword)
+      })
+    const toolGroups = this.groupToolsByCategory(visibleTools)
+
+    this.setData({
+      toolGroups,
+      hasTools: visibleTools.length > 0
     })
   },
 
-  MapsToSignature() {
-    wx.navigateTo({
-      url: '/pages/signature/signature'
+  groupToolsByCategory(toolList) {
+    const groupMap = {}
+    const groups = []
+
+    toolList.forEach((tool) => {
+      if (!groupMap[tool.category]) {
+        groupMap[tool.category] = {
+          category: tool.category,
+          tools: []
+        }
+        groups.push(groupMap[tool.category])
+      }
+
+      groupMap[tool.category].tools.push(tool)
     })
+
+    return groups
   },
 
-  MapsToImageCompress() {
-    wx.navigateTo({
-      url: '/pages/imageCompress/imageCompress'
-    })
-  },
+  MapsToTool(e) {
+    const tool = e.currentTarget.dataset.tool
 
-  MapsToMockupWallpaper() {
+    if (!tool || !tool.pagePath) {
+      wx.showToast({
+        title: '工具暂不可用',
+        icon: 'none'
+      })
+      return
+    }
+
+    if (tool.requiresBackend) {
+      wx.showToast({
+        title: '该工具暂未开放',
+        icon: 'none'
+      })
+      return
+    }
+
     wx.navigateTo({
-      url: '/pages/mockupWallpaper/mockupWallpaper'
+      url: tool.pagePath
     })
   }
 })

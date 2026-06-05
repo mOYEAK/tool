@@ -6,7 +6,8 @@ Page({
     strokeStyle: '#000000',
     backgroundColor: '#FFFFFF',
     brushColors: ['#000000', '#E53935', '#1677FF', '#07C160', '#FF8A00', '#8E44AD'],
-    backgroundColors: ['#FFFFFF', '#F7F8FA', '#FFF7E6', '#EAF4FF', '#EFFFF5', '#111111']
+    backgroundColors: ['#FFFFFF', '#F7F8FA', '#FFF7E6', '#EAF4FF', '#EFFFF5', '#111111'],
+    isSaving: false
   },
 
   canvas: null,
@@ -181,6 +182,10 @@ Page({
   },
 
   async saveSignature() {
+    if (this.data.isSaving) {
+      return
+    }
+
     if (!this.canvas || !this.ctx) {
       wx.showToast({
         title: '画板未初始化',
@@ -202,6 +207,7 @@ Page({
         title: '保存中...',
         mask: true
       })
+      this.setData({ isSaving: true })
 
       this.redrawCanvas()
       await ensureAlbumPermission()
@@ -221,6 +227,7 @@ Page({
         })
       }
     } finally {
+      this.setData({ isSaving: false })
       wx.hideLoading()
     }
   },

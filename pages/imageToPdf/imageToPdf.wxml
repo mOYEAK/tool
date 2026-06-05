@@ -1,0 +1,60 @@
+<view class="page">
+  <button class="primary-button" bindtap="chooseImages" disabled="{{isGenerating}}">选择图片</button>
+
+  <view class="section">
+    <view class="section-header">
+      <view class="section-title">图片列表</view>
+      <view class="section-count">{{images.length}} / 9</view>
+    </view>
+
+    <block wx:if="{{images.length}}">
+      <view wx:for="{{images}}" wx:key="id" class="image-item">
+        <image class="thumb" src="{{item.path}}" mode="aspectFill" />
+        <view class="image-info">
+          <view class="image-name">第 {{index + 1}} 页</view>
+          <view class="image-size">{{item.sizeText}}</view>
+        </view>
+        <view class="item-actions">
+          <view
+            class="icon-action {{index === 0 ? 'action-disabled' : ''}}"
+            data-index="{{index}}"
+            bindtap="moveUp"
+          >
+            ↑
+          </view>
+          <view
+            class="icon-action {{index === images.length - 1 ? 'action-disabled' : ''}}"
+            data-index="{{index}}"
+            bindtap="moveDown"
+          >
+            ↓
+          </view>
+          <view class="delete-action" data-index="{{index}}" bindtap="deleteImage">×</view>
+        </view>
+      </view>
+    </block>
+
+    <view wx:else class="empty-state">
+      请选择 1-9 张图片生成 PDF
+    </view>
+  </view>
+
+  <button
+    wx:if="{{images.length}}"
+    class="primary-button action-button"
+    bindtap="generatePdf"
+    disabled="{{isGenerating}}"
+  >
+    一键生成 PDF
+  </button>
+
+  <view wx:if="{{pdfPath}}" class="result-card">
+    <view>
+      <view class="result-title">PDF 已生成</view>
+      <view class="result-desc">{{pdfSizeText}}</view>
+    </view>
+    <button class="preview-button" bindtap="previewPdf">预览 PDF</button>
+  </view>
+
+  <canvas id="pdfCanvas" type="2d" class="hidden-canvas"></canvas>
+</view>

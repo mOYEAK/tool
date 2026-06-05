@@ -9,7 +9,8 @@ page {
 }
 
 .profile-card,
-.section {
+.section,
+.ad-placeholder {
   background: #FFFFFF;
   border-radius: 20rpx;
 }
@@ -42,6 +43,25 @@ page {
   margin-top: 6rpx;
   color: #7A7F87;
   font-size: 26rpx;
+}
+
+.ad-placeholder {
+  margin-top: 28rpx;
+  padding: 28rpx 32rpx;
+  border: 1rpx dashed #C8D7F8;
+}
+
+.ad-title {
+  color: #1677FF;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.ad-desc {
+  margin-top: 8rpx;
+  color: #8A8F99;
+  font-size: 24rpx;
+  line-height: 1.5;
 }
 
 .section {

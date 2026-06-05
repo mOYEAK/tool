@@ -1,0 +1,47 @@
+<view class="page">
+  <view class="section">
+    <view class="section-title">输入名单</view>
+    <textarea
+      class="name-input"
+      value="{{nameText}}"
+      placeholder="一行一个名字，例如：&#10;张三&#10;李四&#10;王五"
+      maxlength="-1"
+      bindinput="onNameInput"
+    ></textarea>
+    <view class="tips">已识别 {{nameList.length}} 人，本工具仅用于本地名单随机抽取。</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">抽取设置</view>
+    <view class="count-row">
+      <view>
+        <view class="count-label">抽取人数</view>
+        <view class="count-tip">最大不超过当前名单人数</view>
+      </view>
+      <view class="stepper">
+        <view class="step-button" bindtap="decreasePickCount">−</view>
+        <input
+          class="count-input"
+          type="number"
+          value="{{pickCount}}"
+          bindinput="onPickCountInput"
+          bindblur="normalizePickCount"
+        />
+        <view class="step-button" bindtap="increasePickCount">＋</view>
+      </view>
+    </view>
+
+    <button class="primary-button" bindtap="pickNames">开始抽取</button>
+    <button class="plain-button" bindtap="clearNames">清空名单</button>
+  </view>
+
+  <view wx:if="{{resultList.length}}" class="section">
+    <view class="section-title">抽取结果</view>
+    <view class="result-list">
+      <view wx:for="{{resultList}}" wx:key="*this" class="result-item">
+        {{index + 1}}. {{item}}
+      </view>
+    </view>
+    <button class="copy-button" bindtap="copyResult">一键复制结果</button>
+  </view>
+</view>

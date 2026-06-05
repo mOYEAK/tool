@@ -6,41 +6,40 @@
 
   <view class="search-box">
     <text class="search-icon">⌕</text>
-    <text class="search-placeholder">搜索你想要的工具</text>
+    <input
+      class="search-input"
+      value="{{keyword}}"
+      placeholder="搜索你想要的工具"
+      confirm-type="search"
+      bindinput="onSearchInput"
+    />
+    <text wx:if="{{keyword}}" class="clear-icon" bindtap="clearSearch">×</text>
   </view>
 
-  <view class="section">
-    <view class="section-title">图像处理</view>
-    <view class="tool-grid">
-      <view class="tool-card" bindtap="MapsToGridCut">
-        <view class="tool-icon">🖼️</view>
-        <view class="tool-name">九宫格切图</view>
-      </view>
-
-      <view class="tool-card" bindtap="MapsToLongPic">
-        <view class="tool-icon">📜</view>
-        <view class="tool-name">长图拼接</view>
-      </view>
-
-      <view class="tool-card" bindtap="MapsToImageCompress">
-        <view class="tool-icon">🗜️</view>
-        <view class="tool-name">图片压缩</view>
-      </view>
-
-      <view class="tool-card" bindtap="MapsToSignature">
-        <view class="tool-icon">✍️</view>
-        <view class="tool-name">手写签名</view>
-      </view>
-
-      <view class="tool-card" bindtap="MapsToQrCode">
-        <view class="tool-icon">🔲</view>
-        <view class="tool-name">二维码工具</view>
-      </view>
-
-      <view class="tool-card" bindtap="MapsToMockupWallpaper">
-        <view class="tool-icon">📱</view>
-        <view class="tool-name">带壳壁纸</view>
+  <block wx:if="{{hasTools}}">
+    <view
+      wx:for="{{toolGroups}}"
+      wx:key="category"
+      class="section"
+    >
+      <view class="section-title">{{item.category}}</view>
+      <view class="tool-grid">
+        <view
+          wx:for="{{item.tools}}"
+          wx:for-item="tool"
+          wx:key="key"
+          class="tool-card"
+          data-tool="{{tool}}"
+          bindtap="MapsToTool"
+        >
+          <view class="tool-icon">{{tool.icon}}</view>
+          <view class="tool-name">{{tool.name}}</view>
+        </view>
       </view>
     </view>
+  </block>
+
+  <view wx:else class="empty-state">
+    暂未找到相关工具
   </view>
 </view>

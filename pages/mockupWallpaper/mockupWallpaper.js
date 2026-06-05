@@ -9,6 +9,8 @@ Page({
     mockupBackground: 'softBlue',
     wallpaperPreset: 'pureLight',
     wallpaperText: '',
+    isGenerating: false,
+    isSaving: false,
     shellTemplates: [
       { id: 'ios', name: 'iOS 扁平风' },
       { id: 'fullscreen', name: '经典全面屏' }
@@ -85,6 +87,10 @@ Page({
   },
 
   async generateMockup() {
+    if (this.data.isGenerating) {
+      return
+    }
+
     if (!this.data.screenshotPath) {
       wx.showToast({
         title: '请先选择截图',
@@ -98,6 +104,7 @@ Page({
         title: '生成中...',
         mask: true
       })
+      this.setData({ isGenerating: true })
 
       const resultPath = await this.drawMockupPoster()
 
@@ -108,16 +115,22 @@ Page({
         icon: 'none'
       })
     } finally {
+      this.setData({ isGenerating: false })
       wx.hideLoading()
     }
   },
 
   async generateWallpaper() {
+    if (this.data.isGenerating) {
+      return
+    }
+
     try {
       wx.showLoading({
         title: '生成中...',
         mask: true
       })
+      this.setData({ isGenerating: true })
 
       const resultPath = await this.drawWallpaper()
 
@@ -128,6 +141,7 @@ Page({
         icon: 'none'
       })
     } finally {
+      this.setData({ isGenerating: false })
       wx.hideLoading()
     }
   },
@@ -339,7 +353,7 @@ Page({
   },
 
   async saveResult() {
-    if (!this.data.resultPath) {
+    if (this.data.isSaving || !this.data.resultPath) {
       return
     }
 
@@ -348,6 +362,7 @@ Page({
         title: '保存中...',
         mask: true
       })
+      this.setData({ isSaving: true })
 
       await ensureAlbumPermission()
       await saveImageToAlbum(this.data.resultPath)
@@ -364,6 +379,7 @@ Page({
         })
       }
     } finally {
+      this.setData({ isSaving: false })
       wx.hideLoading()
     }
   },

@@ -1,0 +1,146 @@
+page {
+  min-height: 100vh;
+  background: #F7F8FA;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 32rpx;
+}
+
+.primary-button,
+.preview-button {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+}
+
+.primary-button {
+  color: #FFFFFF;
+  background: #1677FF;
+}
+
+.action-button {
+  margin-top: 28rpx;
+}
+
+.section,
+.result-card {
+  margin-top: 28rpx;
+  padding: 28rpx;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+}
+
+.section-header,
+.result-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-title,
+.result-title {
+  color: #111111;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.section-count,
+.result-desc {
+  margin-top: 6rpx;
+  color: #8A8F99;
+  font-size: 24rpx;
+}
+
+.image-item {
+  display: flex;
+  align-items: center;
+  margin-top: 24rpx;
+  padding: 18rpx;
+  background: #F7F8FA;
+  border-radius: 16rpx;
+}
+
+.thumb {
+  display: block;
+  flex-shrink: 0;
+  width: 148rpx;
+  height: 148rpx;
+  margin-right: 22rpx;
+  background: #EEF0F3;
+  border-radius: 12rpx;
+}
+
+.image-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.image-name {
+  color: #111111;
+  font-size: 30rpx;
+  line-height: 1.4;
+}
+
+.image-size {
+  margin-top: 10rpx;
+  color: #8A8F99;
+  font-size: 24rpx;
+}
+
+.item-actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 10rpx;
+  margin-left: 16rpx;
+}
+
+.icon-action,
+.delete-action {
+  width: 52rpx;
+  height: 52rpx;
+  font-size: 28rpx;
+  line-height: 52rpx;
+  text-align: center;
+  border-radius: 50%;
+}
+
+.icon-action {
+  color: #1677FF;
+  background: #EEF4FF;
+}
+
+.delete-action {
+  color: #FFFFFF;
+  background: #E5484D;
+}
+
+.action-disabled {
+  color: #B8C0CC;
+  background: #EEF0F3;
+}
+
+.preview-button {
+  width: 200rpx;
+  color: #FFFFFF;
+  background: #07C160;
+}
+
+.empty-state {
+  padding: 80rpx 24rpx;
+  color: #8A8F99;
+  font-size: 28rpx;
+  text-align: center;
+}
+
+.hidden-canvas {
+  position: fixed;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+}

@@ -3,10 +3,16 @@ const { ensureAlbumPermission, saveImageToAlbum } = require('../../utils/album.j
 Page({
   data: {
     pieces: [],
-    emptyCells: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    emptyCells: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+    isGenerating: false,
+    isSaving: false
   },
 
   async chooseImage() {
+    if (this.data.isGenerating) {
+      return
+    }
+
     try {
       const mediaRes = await wx.chooseMedia({
         count: 1,
@@ -21,6 +27,7 @@ Page({
         title: '切图中...',
         mask: true
       })
+      this.setData({ isGenerating: true })
 
       const pieces = await this.createNineGridImages(filePath)
       this.setData({ pieces })
@@ -32,6 +39,7 @@ Page({
         })
       }
     } finally {
+      this.setData({ isGenerating: false })
       wx.hideLoading()
     }
   },
@@ -134,7 +142,7 @@ Page({
   },
 
   async saveAllImages() {
-    if (this.data.pieces.length !== 9) {
+    if (this.data.isSaving || this.data.pieces.length !== 9) {
       return
     }
 
@@ -145,6 +153,7 @@ Page({
         title: '保存中...',
         mask: true
       })
+      this.setData({ isSaving: true })
 
       for (const filePath of this.data.pieces) {
         await saveImageToAlbum(filePath)
@@ -162,6 +171,7 @@ Page({
         })
       }
     } finally {
+      this.setData({ isSaving: false })
       wx.hideLoading()
     }
   },

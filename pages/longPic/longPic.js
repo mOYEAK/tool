@@ -2,7 +2,8 @@ const { ensureAlbumPermission, saveImageToAlbum } = require('../../utils/album.j
 
 Page({
   data: {
-    images: []
+    images: [],
+    isGenerating: false
   },
 
   async chooseImages() {
@@ -38,7 +39,7 @@ Page({
   },
 
   async createAndSaveLongImage() {
-    if (this.data.images.length < 2) {
+    if (this.data.isGenerating || this.data.images.length < 2) {
       return
     }
 
@@ -47,6 +48,7 @@ Page({
         title: '努力拼接中...',
         mask: true
       })
+      this.setData({ isGenerating: true })
 
       const tempFilePath = await this.createLongImage()
 
@@ -59,10 +61,11 @@ Page({
       })
     } catch (err) {
       wx.showToast({
-        title: '生成失败',
+        title: err && err.message ? err.message : '生成失败',
         icon: 'none'
       })
     } finally {
+      this.setData({ isGenerating: false })
       wx.hideLoading()
     }
   },

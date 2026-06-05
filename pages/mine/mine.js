@@ -9,5 +9,12 @@ Page({
         })
       }
     })
+  },
+
+  showComingSoon() {
+    wx.showToast({
+      title: '暂未开放',
+      icon: 'none'
+    })
   }
 })

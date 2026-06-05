@@ -1,5 +1,5 @@
 <view class="page">
-  <button class="primary-button" bindtap="chooseImage">选择图片</button>
+  <button class="primary-button" bindtap="chooseImage" disabled="{{isGenerating}}">选择图片</button>
 
   <view class="grid">
     <block wx:if="{{pieces.length}}">
@@ -20,6 +20,7 @@
     wx:if="{{pieces.length === 9}}"
     class="save-button"
     bindtap="saveAllImages"
+    disabled="{{isSaving}}"
   >
     一键保存到相册
   </button>

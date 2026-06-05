@@ -42,14 +42,31 @@ page {
   font-size: 34rpx;
 }
 
-.search-placeholder {
+.search-input {
+  flex: 1;
+  height: 84rpx;
+  color: #111111;
   font-size: 28rpx;
 }
 
+.clear-icon {
+  width: 48rpx;
+  height: 48rpx;
+  color: #8A8F99;
+  font-size: 42rpx;
+  line-height: 44rpx;
+  text-align: center;
+}
+
 .section {
+  margin-bottom: 28rpx;
   padding: 32rpx 28rpx;
   background: #FFFFFF;
   border-radius: 20rpx;
+}
+
+.section:last-child {
+  margin-bottom: 0;
 }
 
 .section-title {
@@ -93,4 +110,13 @@ page {
   font-size: 24rpx;
   line-height: 1.4;
   text-align: center;
+}
+
+.empty-state {
+  padding: 96rpx 32rpx;
+  color: #8A8F99;
+  font-size: 28rpx;
+  text-align: center;
+  background: #FFFFFF;
+  border-radius: 20rpx;
 }

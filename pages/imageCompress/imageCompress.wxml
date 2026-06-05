@@ -1,5 +1,5 @@
 <view class="page">
-  <button class="primary-button" bindtap="chooseImage">选择图片</button>
+  <button class="primary-button" bindtap="chooseImage" disabled="{{isGenerating}}">选择图片</button>
 
   <view wx:if="{{imagePath}}" class="section">
     <view class="section-title">压缩设置</view>
@@ -48,7 +48,7 @@
       />
     </view>
 
-    <button class="primary-button action-button" bindtap="compressImage">生成压缩图</button>
+    <button class="primary-button action-button" bindtap="compressImage" disabled="{{isGenerating}}">生成压缩图</button>
   </view>
 
   <view wx:if="{{compressedPath}}" class="section">
@@ -60,7 +60,7 @@
         <text>{{compressedSizeText}}</text>
       </view>
     </view>
-    <button class="save-button" bindtap="saveCompressedImage">保存到相册</button>
+    <button class="save-button" bindtap="saveCompressedImage" disabled="{{isSaving}}">保存到相册</button>
   </view>
 
   <view wx:if="{{!imagePath}}" class="empty-state">

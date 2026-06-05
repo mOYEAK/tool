@@ -6,7 +6,10 @@ Page({
   data: {
     qrText: '',
     qrImagePath: '',
-    scanResult: ''
+    scanResult: '',
+    isGenerating: false,
+    isDecoding: false,
+    isSaving: false
   },
 
   onQrTextInput(e) {
@@ -16,6 +19,10 @@ Page({
   },
 
   async generateQrCode() {
+    if (this.data.isGenerating) {
+      return
+    }
+
     const text = this.data.qrText.trim()
 
     if (!text) {
@@ -31,6 +38,7 @@ Page({
         title: '生成中...',
         mask: true
       })
+      this.setData({ isGenerating: true })
 
       const qrImagePath = await this.createQrImage(text)
 
@@ -41,6 +49,7 @@ Page({
         icon: 'none'
       })
     } finally {
+      this.setData({ isGenerating: false })
       wx.hideLoading()
     }
   },
@@ -82,7 +91,7 @@ Page({
   },
 
   async saveQrCode() {
-    if (!this.data.qrImagePath) {
+    if (this.data.isSaving || !this.data.qrImagePath) {
       return
     }
 
@@ -91,6 +100,7 @@ Page({
         title: '保存中...',
         mask: true
       })
+      this.setData({ isSaving: true })
 
       await ensureAlbumPermission()
       await saveImageToAlbum(this.data.qrImagePath)
@@ -107,11 +117,16 @@ Page({
         })
       }
     } finally {
+      this.setData({ isSaving: false })
       wx.hideLoading()
     }
   },
 
   async chooseQrImage() {
+    if (this.data.isDecoding) {
+      return
+    }
+
     try {
       const res = await wx.chooseMedia({
         count: 1,
@@ -125,6 +140,7 @@ Page({
         title: '识别中...',
         mask: true
       })
+      this.setData({ isDecoding: true })
 
       const result = await this.decodeQrImage(filePath)
 
@@ -139,6 +155,7 @@ Page({
         })
       }
     } finally {
+      this.setData({ isDecoding: false })
       wx.hideLoading()
     }
   },

@@ -7,6 +7,9 @@
     "pages/signature/signature",
     "pages/imageCompress/imageCompress",
     "pages/mockupWallpaper/mockupWallpaper",
+    "pages/imageToPdf/imageToPdf",
+    "pages/namePicker/namePicker",
+    "pages/receiptMaker/receiptMaker",
     "pages/mine/mine"
   ],
   "window": {

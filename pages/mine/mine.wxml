@@ -7,6 +7,23 @@
     </view>
   </view>
 
+  <view class="ad-placeholder">
+    <view class="ad-title">广告位预留</view>
+    <view class="ad-desc">流量主开通后展示，不影响当前免费工具使用</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">使用记录</view>
+    <view class="row" bindtap="showComingSoon">
+      <text>最近使用</text>
+      <text class="row-extra">暂未开放</text>
+    </view>
+    <view class="row" bindtap="showComingSoon">
+      <text>导出记录</text>
+      <text class="row-extra">本地记录占位</text>
+    </view>
+  </view>
+
   <view class="section">
     <view class="section-title">使用与反馈</view>
     <button class="plain-row" open-type="feedback">意见反馈</button>
@@ -19,9 +36,13 @@
 
   <view class="section">
     <view class="section-title">关于</view>
-    <view class="row">
-      <text>隐私说明</text>
-      <text class="row-extra">所有工具优先本地处理</text>
+    <view class="row" bindtap="showComingSoon">
+      <text>隐私协议</text>
+      <text class="row-extra">本地处理优先</text>
+    </view>
+    <view class="row" bindtap="showComingSoon">
+      <text>关于我们</text>
+      <text class="row-extra">万能工具箱</text>
     </view>
     <view class="row">
       <text>当前版本</text>
