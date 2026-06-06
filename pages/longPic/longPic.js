@@ -1,4 +1,5 @@
 const { ensureAlbumPermission, saveImageToAlbum } = require('../../utils/album.js')
+const { recordToolUse } = require('../../services/usage.js')
 
 Page({
   data: {
@@ -51,9 +52,11 @@ Page({
       this.setData({ isGenerating: true })
 
       const tempFilePath = await this.createLongImage()
+      recordToolUse('longPic', 'generate')
 
       await ensureAlbumPermission()
       await saveImageToAlbum(tempFilePath)
+      recordToolUse('longPic', 'save')
 
       wx.showToast({
         title: '保存成功',

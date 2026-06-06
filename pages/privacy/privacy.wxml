@@ -1,0 +1,28 @@
+<view class="page">
+  <view class="section">
+    <view class="title">隐私协议</view>
+    <view class="desc">万能工具箱重视你的隐私。当前版本以本地工具为主，默认不上传你的图片、二维码内容、签名、PDF、海报或名单数据。</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">本地处理说明</view>
+    <view class="paragraph">九宫格切图、长图拼接、二维码生成与识别、手写签名、图片压缩、带壳截图、图片转 PDF、报价收据、活动海报等功能，均在微信小程序本地环境中处理。</view>
+    <view class="paragraph">使用记录和导出记录仅保存在你的手机本地缓存中，不做账号同步，也不会主动上传到服务器。</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">权限使用说明</view>
+    <view class="paragraph">选择图片时，小程序会调用微信提供的相册或拍摄能力，仅用于你当前选择的工具处理。</view>
+    <view class="paragraph">保存图片到相册时，小程序会申请相册写入权限。拒绝授权后，你仍可继续使用不需要保存到相册的功能。</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">第三方与广告</view>
+    <view class="paragraph">当前版本未接入真实广告、支付或后端统计服务。页面中的广告位仅为后续能力预留，不影响当前免费工具使用。</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">联系我们</view>
+    <view class="paragraph">如你对隐私说明或工具使用有疑问，可通过“我的”页面中的意见反馈或联系客服与我们沟通。</view>
+  </view>
+</view>

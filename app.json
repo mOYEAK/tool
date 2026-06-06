@@ -10,6 +10,9 @@
     "pages/imageToPdf/imageToPdf",
     "pages/namePicker/namePicker",
     "pages/receiptMaker/receiptMaker",
+    "pages/posterMaker/posterMaker",
+    "pages/privacy/privacy",
+    "pages/about/about",
     "pages/mine/mine"
   ],
   "window": {

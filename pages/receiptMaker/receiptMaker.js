@@ -1,4 +1,5 @@
 const { ensureAlbumPermission, saveImageToAlbum } = require('../../utils/album.js')
+const { recordToolUse } = require('../../services/usage.js')
 
 const STORAGE_KEY = 'toolbox_receipt_maker_draft'
 
@@ -141,6 +142,7 @@ Page({
       const resultPath = await this.drawReceiptImage()
 
       this.setData({ resultPath })
+      recordToolUse('receiptMaker', 'generate')
     } catch (err) {
       wx.showToast({
         title: '生成失败',
@@ -305,6 +307,7 @@ Page({
 
       await ensureAlbumPermission()
       await saveImageToAlbum(this.data.resultPath)
+      recordToolUse('receiptMaker', 'save')
 
       wx.showToast({
         title: '保存成功',

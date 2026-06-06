@@ -1,6 +1,7 @@
 const qrcode = require('../../utils/qrcode-generator.js')
 const jsQR = require('../../utils/jsqr.js')
 const { ensureAlbumPermission, saveImageToAlbum } = require('../../utils/album.js')
+const { recordToolUse } = require('../../services/usage.js')
 
 Page({
   data: {
@@ -43,6 +44,7 @@ Page({
       const qrImagePath = await this.createQrImage(text)
 
       this.setData({ qrImagePath })
+      recordToolUse('qrcode', 'generate')
     } catch (err) {
       wx.showToast({
         title: '生成失败',
@@ -104,6 +106,7 @@ Page({
 
       await ensureAlbumPermission()
       await saveImageToAlbum(this.data.qrImagePath)
+      recordToolUse('qrcode', 'save')
 
       wx.showToast({
         title: '保存成功',

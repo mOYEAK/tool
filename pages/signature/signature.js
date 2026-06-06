@@ -1,4 +1,5 @@
 const { ensureAlbumPermission, saveImageToAlbum } = require('../../utils/album.js')
+const { recordToolUse } = require('../../services/usage.js')
 
 Page({
   data: {
@@ -214,6 +215,7 @@ Page({
       const tempFilePath = await this.canvasToTempFilePath()
 
       await saveImageToAlbum(tempFilePath)
+      recordToolUse('signature', 'save')
 
       wx.showToast({
         title: '保存成功',

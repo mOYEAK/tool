@@ -97,5 +97,16 @@ module.exports = [
     requiresBackend: false,
     enabled: true,
     pagePath: '/pages/receiptMaker/receiptMaker'
+  },
+  {
+    key: 'posterMaker',
+    name: '活动海报',
+    icon: '🎨',
+    category: '办公工具',
+    phase: 2,
+    monetization: 'free',
+    requiresBackend: false,
+    enabled: true,
+    pagePath: '/pages/posterMaker/posterMaker'
   }
 ]

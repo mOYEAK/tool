@@ -1,4 +1,5 @@
 const { createPdfFromJpegs } = require('../../services/pdf.js')
+const { recordToolUse } = require('../../services/usage.js')
 
 Page({
   data: {
@@ -132,6 +133,7 @@ Page({
         pdfPath,
         pdfSizeText: this.formatSize(size)
       })
+      recordToolUse('imageToPdf', 'generate')
 
       wx.showToast({
         title: '生成成功',

@@ -1,4 +1,5 @@
 const { ensureAlbumPermission, saveImageToAlbum } = require('../../utils/album.js')
+const { recordToolUse } = require('../../services/usage.js')
 
 Page({
   data: {
@@ -31,6 +32,7 @@ Page({
 
       const pieces = await this.createNineGridImages(filePath)
       this.setData({ pieces })
+      recordToolUse('gridCut', 'generate')
     } catch (err) {
       if (!this.isCancelError(err)) {
         wx.showToast({
@@ -158,6 +160,7 @@ Page({
       for (const filePath of this.data.pieces) {
         await saveImageToAlbum(filePath)
       }
+      recordToolUse('gridCut', 'save')
 
       wx.showToast({
         title: '保存成功',

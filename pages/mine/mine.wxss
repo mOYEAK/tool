@@ -69,11 +69,88 @@ page {
   padding: 28rpx 32rpx;
 }
 
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
 .section-title {
   margin-bottom: 12rpx;
   color: #333333;
   font-size: 30rpx;
   font-weight: 600;
+}
+
+.section-header .section-title {
+  margin-bottom: 0;
+}
+
+.clear-link {
+  color: #1677FF;
+  font-size: 26rpx;
+}
+
+.record-block {
+  padding-top: 8rpx;
+}
+
+.export-block {
+  margin-top: 28rpx;
+  padding-top: 26rpx;
+  border-top: 1rpx solid #EEF0F3;
+}
+
+.record-subtitle {
+  margin-bottom: 12rpx;
+  color: #8A8F99;
+  font-size: 24rpx;
+}
+
+.record-row {
+  display: flex;
+  align-items: center;
+  min-height: 92rpx;
+  border-bottom: 1rpx solid #EEF0F3;
+}
+
+.record-row:last-child {
+  border-bottom: 0;
+}
+
+.record-icon {
+  width: 64rpx;
+  height: 64rpx;
+  margin-right: 18rpx;
+  font-size: 34rpx;
+  line-height: 64rpx;
+  text-align: center;
+  background: #F7F8FA;
+  border-radius: 16rpx;
+}
+
+.record-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.record-title {
+  color: #111111;
+  font-size: 28rpx;
+  line-height: 1.4;
+}
+
+.record-desc {
+  margin-top: 4rpx;
+  color: #8A8F99;
+  font-size: 24rpx;
+}
+
+.empty-record {
+  padding: 24rpx 0;
+  color: #B0B6C0;
+  font-size: 26rpx;
 }
 
 .row,

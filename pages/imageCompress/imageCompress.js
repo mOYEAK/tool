@@ -1,4 +1,5 @@
 const { ensureAlbumPermission, saveImageToAlbum } = require('../../utils/album.js')
+const { recordToolUse } = require('../../services/usage.js')
 
 Page({
   data: {
@@ -87,6 +88,7 @@ Page({
         compressedPath,
         compressedSizeText: this.formatSize(compressedSize)
       })
+      recordToolUse('imageCompress', 'generate')
     } catch (err) {
       wx.showToast({
         title: '处理失败',
@@ -137,6 +139,7 @@ Page({
 
       await ensureAlbumPermission()
       await saveImageToAlbum(this.data.compressedPath)
+      recordToolUse('imageCompress', 'save')
 
       wx.showToast({
         title: '保存成功',

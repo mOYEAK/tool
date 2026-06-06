@@ -1,4 +1,5 @@
 const tools = require('../../modules/tools.js')
+const { recordToolUse } = require('../../services/usage.js')
 
 Page({
   data: {
@@ -86,6 +87,8 @@ Page({
       })
       return
     }
+
+    recordToolUse(tool.key, 'open')
 
     wx.navigateTo({
       url: tool.pagePath

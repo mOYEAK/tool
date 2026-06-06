@@ -2,25 +2,48 @@
   <view class="profile-card">
     <view class="app-logo">🧰</view>
     <view>
-      <view class="app-name">万能工具箱</view>
+      <view class="app-name">{{appName}}</view>
       <view class="app-desc">轻量、纯本地、即开即用</view>
     </view>
   </view>
 
   <view class="ad-placeholder">
-    <view class="ad-title">广告位预留</view>
-    <view class="ad-desc">流量主开通后展示，不影响当前免费工具使用</view>
+    <view class="ad-title">{{adsEnabled ? '广告服务' : '广告位预留'}}</view>
+    <view class="ad-desc">{{adsEnabled ? '广告服务已开启' : '当前未接入真实广告，不影响免费工具使用'}}</view>
   </view>
 
   <view class="section">
-    <view class="section-title">使用记录</view>
-    <view class="row" bindtap="showComingSoon">
-      <text>最近使用</text>
-      <text class="row-extra">暂未开放</text>
+    <view class="section-header">
+      <view class="section-title">使用记录</view>
+      <view wx:if="{{recentUsage.length || exportRecords.length}}" class="clear-link" bindtap="clearRecords">清空</view>
     </view>
-    <view class="row" bindtap="showComingSoon">
-      <text>导出记录</text>
-      <text class="row-extra">本地记录占位</text>
+
+    <view class="record-block">
+      <view class="record-subtitle">最近使用</view>
+      <block wx:if="{{recentUsage.length}}">
+        <view wx:for="{{recentUsage}}" wx:key="id" class="record-row">
+          <view class="record-icon">{{item.icon}}</view>
+          <view class="record-main">
+            <view class="record-title">{{item.name}}</view>
+            <view class="record-desc">{{item.actionText}} · {{item.timeText}}</view>
+          </view>
+        </view>
+      </block>
+      <view wx:else class="empty-record">暂无使用记录</view>
+    </view>
+
+    <view class="record-block export-block">
+      <view class="record-subtitle">导出记录</view>
+      <block wx:if="{{exportRecords.length}}">
+        <view wx:for="{{exportRecords}}" wx:key="id" class="record-row">
+          <view class="record-icon">{{item.icon}}</view>
+          <view class="record-main">
+            <view class="record-title">{{item.name}}</view>
+            <view class="record-desc">{{item.actionText}} · {{item.timeText}}</view>
+          </view>
+        </view>
+      </block>
+      <view wx:else class="empty-record">暂无导出记录</view>
     </view>
   </view>
 
@@ -28,25 +51,25 @@
     <view class="section-title">使用与反馈</view>
     <button class="plain-row" open-type="feedback">意见反馈</button>
     <button class="plain-row" open-type="contact">联系客服</button>
-    <view class="row" bindtap="copyEmail">
+    <view wx:if="{{supportEmail}}" class="row" bindtap="copyEmail">
       <text>联系邮箱</text>
-      <text class="row-extra">support@example.com</text>
+      <text class="row-extra">{{supportEmail}}</text>
     </view>
   </view>
 
   <view class="section">
     <view class="section-title">关于</view>
-    <view class="row" bindtap="showComingSoon">
+    <view class="row" bindtap="openPrivacy">
       <text>隐私协议</text>
       <text class="row-extra">本地处理优先</text>
     </view>
-    <view class="row" bindtap="showComingSoon">
+    <view class="row" bindtap="openAbout">
       <text>关于我们</text>
-      <text class="row-extra">万能工具箱</text>
+      <text class="row-extra">{{appName}}</text>
     </view>
     <view class="row">
       <text>当前版本</text>
-      <text class="row-extra">V1.0</text>
+      <text class="row-extra">V{{version}}</text>
     </view>
   </view>
 </view>

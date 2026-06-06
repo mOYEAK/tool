@@ -1,4 +1,5 @@
 const { ensureAlbumPermission, saveImageToAlbum } = require('../../utils/album.js')
+const { recordToolUse } = require('../../services/usage.js')
 
 Page({
   data: {
@@ -109,6 +110,7 @@ Page({
       const resultPath = await this.drawMockupPoster()
 
       this.setData({ resultPath })
+      recordToolUse('mockupWallpaper', 'generate')
     } catch (err) {
       wx.showToast({
         title: '生成失败',
@@ -135,6 +137,7 @@ Page({
       const resultPath = await this.drawWallpaper()
 
       this.setData({ resultPath })
+      recordToolUse('mockupWallpaper', 'generate')
     } catch (err) {
       wx.showToast({
         title: '生成失败',
@@ -366,6 +369,7 @@ Page({
 
       await ensureAlbumPermission()
       await saveImageToAlbum(this.data.resultPath)
+      recordToolUse('mockupWallpaper', 'save')
 
       wx.showToast({
         title: '保存成功',

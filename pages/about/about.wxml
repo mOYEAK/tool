@@ -1,0 +1,37 @@
+<view class="page">
+  <view class="profile-card">
+    <view class="app-logo">🧰</view>
+    <view>
+      <view class="app-name">{{appName}}</view>
+      <view class="app-desc">轻量、纯本地、即开即用</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">产品定位</view>
+    <view class="paragraph">万能工具箱是一款微信原生小程序工具合集，优先提供图片处理、二维码、签名、PDF、办公单据和活动海报等高频实用能力。</view>
+    <view class="paragraph">当前版本坚持本地处理优先，尽量减少不必要的网络、账号和后端依赖。</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">当前版本</view>
+    <view class="info-row">
+      <text>版本号</text>
+      <text class="info-extra">V{{version}}</text>
+    </view>
+    <view class="info-row">
+      <text>广告与支付</text>
+      <text class="info-extra">{{adsEnabled || paymentEnabled ? '部分已接入' : '暂未接入'}}</text>
+    </view>
+    <view class="info-row">
+      <text>数据同步</text>
+      <text class="info-extra">仅本机缓存</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">反馈方式</view>
+    <view class="paragraph">如果你遇到问题，或希望新增某个工具，可以通过“我的”页面中的意见反馈或联系客服告诉我们。</view>
+    <view wx:if="{{supportEmail}}" class="email">{{supportEmail}}</view>
+  </view>
+</view>
