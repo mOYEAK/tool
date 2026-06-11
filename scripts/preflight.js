@@ -8,7 +8,7 @@ const warnings = []
 const failures = []
 const sourceExtensions = new Set(['.js', '.json', '.wxml', '.wxss'])
 const pageExtensions = ['.js', '.json', '.wxml', '.wxss']
-const highRiskKeywords = ['watermark', 'removeWatermark', 'videoDownload', 'videoParse', '去水印', '视频解析']
+const highRiskKeywords = ['removeWatermark', 'videoDownload', 'videoParse', '去水印', '视频解析']
 const expectedV1ToolKeys = [
   'gridCut',
   'longPic',
@@ -16,10 +16,13 @@ const expectedV1ToolKeys = [
   'mockupWallpaper',
   'qrcode',
   'signature',
+  'watermark',
   'imageToPdf',
   'namePicker',
   'receiptMaker',
-  'posterMaker'
+  'posterMaker',
+  'ocr',
+  'idPhoto'
 ]
 
 function pass(message) {
@@ -205,10 +208,10 @@ function checkReleaseConfig(globalAppConfig) {
         pass('统一应用配置完整')
       }
 
-      if (config.version !== '1.0.0') {
-        fail(`V1 提审版本号必须为 1.0.0，当前为 ${config.version}`)
+      if (config.version !== '1.2.0') {
+        fail(`提审版本号必须为 1.2.0，当前为 ${config.version}`)
       } else {
-        pass('V1 提审版本号为 1.0.0')
+        pass('提审版本号为 1.2.0')
       }
 
       const disabledCapabilities = ['adsEnabled', 'paymentEnabled', 'backendEnabled', 'analyticsEnabled']

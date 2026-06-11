@@ -7,10 +7,13 @@
     "pages/signature/signature",
     "pages/imageCompress/imageCompress",
     "pages/mockupWallpaper/mockupWallpaper",
+    "pages/watermark/watermark",
     "pages/imageToPdf/imageToPdf",
     "pages/namePicker/namePicker",
     "pages/receiptMaker/receiptMaker",
     "pages/posterMaker/posterMaker",
+    "pages/ocr/ocr",
+    "pages/idPhoto/idPhoto",
     "pages/privacy/privacy",
     "pages/about/about",
     "pages/mine/mine"

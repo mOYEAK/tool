@@ -1,0 +1,72 @@
+<view class="page">
+  <!-- 选图按钮 -->
+  <view class="top-bar">
+    <button class="choose-btn" bindtap="chooseImage" loading="{{isLoadingImage}}">
+      {{imagePath ? '重新选择图片' : '选择图片'}}
+    </button>
+  </view>
+
+  <!-- 图片预览 + 识别按钮 -->
+  <view class="preview-section" wx:if="{{imagePath}}">
+    <image class="preview-image" src="{{imagePath}}" mode="widthFix" />
+
+    <view class="action-row">
+      <button
+        class="ocr-btn"
+        bindtap="startRecognize"
+        loading="{{isRecognizing}}"
+        disabled="{{isRecognizing}}"
+      >开始识别</button>
+    </view>
+  </view>
+
+  <!-- 识别中 -->
+  <view class="recognizing-hint" wx:if="{{isRecognizing}}">
+    <view class="hint-icon">🔍</view>
+    <view class="hint-text">正在识别图片中的文字...</view>
+    <view class="hint-sub">网络请求中，请稍候</view>
+  </view>
+
+  <!-- 识别结果 -->
+  <view class="result-section" wx:if="{{ocrResult}}">
+    <view class="result-header">
+      <text class="result-title">识别结果</text>
+      <text class="result-count">{{resultCharCount}} 字</text>
+    </view>
+
+    <textarea
+      class="result-textarea"
+      value="{{ocrResult}}"
+      auto-height
+      show-confirm-bar="{{false}}"
+      adjust-position="{{false}}"
+      placeholder="识别结果为空"
+    />
+
+    <view class="bottom-actions">
+      <button class="action-btn copy-btn" bindtap="copyResult">
+        <text class="btn-icon">📋</text>
+        <text>{{isCopied ? '已复制' : '复制结果'}}</text>
+      </button>
+      <button class="action-btn export-btn" bindtap="showExportTip">
+        <text class="btn-icon">📥</text>
+        <text>导出 Excel</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!imagePath && !isRecognizing}}">
+    <view class="empty-icon">📷</view>
+    <view class="empty-title">图片转文字</view>
+    <view class="empty-desc">上传图片，自动识别并提取其中的文字内容。\n支持印刷体中文、英文及数字。</view>
+  </view>
+</view>
+
+<!-- 压缩用的隐藏 Canvas -->
+<canvas
+  type="2d"
+  id="compressCanvas"
+  class="hidden-canvas"
+  style="width: 200px; height: 200px;"
+></canvas>

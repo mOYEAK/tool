@@ -1,0 +1,103 @@
+<scroll-view scroll-y class="page" wx:if="{{imageLoaded}}">
+  <view class="canvas-wrap">
+    <canvas
+      type="2d"
+      id="watermarkCanvas"
+      class="watermark-canvas"
+      style="width: {{canvasWidth}}px; height: {{canvasHeight}}px;"
+      disable-scroll="true"
+      bindtouchstart="onTouchStart"
+      bindtouchmove="onTouchMove"
+    ></canvas>
+  </view>
+
+  <view class="control-panel">
+    <view class="control-row">
+      <text class="control-label">水印文字</text>
+      <input
+        class="text-input"
+        value="{{watermarkText}}"
+        bindinput="onTextChange"
+        placeholder="请输入水印文字"
+        maxlength="50"
+      />
+    </view>
+
+    <view class="slider-row">
+      <text class="control-label">透明度</text>
+      <text class="slider-value">{{watermarkOpacity}}</text>
+    </view>
+    <slider
+      class="slider"
+      min="0.1"
+      max="1.0"
+      step="0.1"
+      value="{{watermarkOpacity}}"
+      bindchange="onOpacityChange"
+      show-value
+    />
+
+    <view class="slider-row">
+      <text class="control-label">旋转角度</text>
+      <text class="slider-value">{{watermarkRotate}}°</text>
+    </view>
+    <slider
+      class="slider"
+      min="0"
+      max="360"
+      step="1"
+      value="{{watermarkRotate}}"
+      bindchange="onRotateChange"
+      show-value
+    />
+
+    <view class="control-row">
+      <text class="control-label">水印颜色</text>
+      <view class="swatch-list">
+        <view
+          class="swatch {{watermarkColor === '#000000' ? 'swatch-active' : ''}}"
+          style="background: #000000;"
+          data-color="#000000"
+          bindtap="onColorChange"
+        ></view>
+        <view
+          class="swatch {{watermarkColor === '#FFFFFF' ? 'swatch-active' : ''}}"
+          style="background: #FFFFFF; border: 2rpx solid #E5E5E5;"
+          data-color="#FFFFFF"
+          bindtap="onColorChange"
+        ></view>
+        <view
+          class="swatch {{watermarkColor === '#E53935' ? 'swatch-active' : ''}}"
+          style="background: #E53935;"
+          data-color="#E53935"
+          bindtap="onColorChange"
+        ></view>
+        <view
+          class="swatch {{watermarkColor === '#1677FF' ? 'swatch-active' : ''}}"
+          style="background: #1677FF;"
+          data-color="#1677FF"
+          bindtap="onColorChange"
+        ></view>
+      </view>
+    </view>
+
+    <button
+      class="save-btn"
+      bindtap="saveToAlbum"
+      loading="{{isSaving}}"
+      disabled="{{isSaving}}"
+    >一键保存到相册</button>
+  </view>
+</scroll-view>
+
+<!-- 没选图的状态 -->
+<view class="empty-state" wx:else>
+  <view class="empty-icon">🚰</view>
+  <view class="empty-title">图片加水印</view>
+  <view class="empty-desc">上传图片，添加自定义文字水印</view>
+</view>
+
+<!-- 顶部操作区始终可见 -->
+<view class="top-bar">
+  <button class="choose-btn" bindtap="chooseImage" loading="{{isLoading}}">选择图片</button>
+</view>

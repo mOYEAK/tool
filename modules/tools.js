@@ -66,6 +66,17 @@ module.exports = [
     pagePath: '/pages/signature/signature'
   },
   {
+    key: 'watermark',
+    name: '图片加水印',
+    icon: '🚰',
+    category: '图像处理',
+    phase: 1,
+    monetization: 'free',
+    requiresBackend: false,
+    enabled: true,
+    pagePath: '/pages/watermark/watermark'
+  },
+  {
     key: 'imageToPdf',
     name: '图片转 PDF',
     icon: '📄',
@@ -108,5 +119,27 @@ module.exports = [
     requiresBackend: false,
     enabled: true,
     pagePath: '/pages/posterMaker/posterMaker'
+  },
+  {
+    key: 'ocr',
+    name: '图片转文字',
+    icon: '📝',
+    category: '办公工具',
+    phase: 2,
+    monetization: 'quota',
+    requiresBackend: true,
+    enabled: true,
+    pagePath: '/pages/ocr/ocr'
+  },
+  {
+    key: 'idPhoto',
+    name: '证件照',
+    icon: '📸',
+    category: '图像处理',
+    phase: 3,
+    monetization: 'quota',
+    requiresBackend: true,
+    enabled: true,
+    pagePath: '/pages/idPhoto/idPhoto'
   }
 ]
