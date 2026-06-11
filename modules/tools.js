@@ -141,5 +141,38 @@ module.exports = [
     requiresBackend: true,
     enabled: true,
     pagePath: '/pages/idPhoto/idPhoto'
+  },
+  {
+    key: 'promptGenerator',
+    name: '图片转提示词',
+    icon: '🎨',
+    category: 'AI 工具',
+    phase: 3,
+    monetization: 'quota',
+    requiresBackend: true,
+    enabled: true,
+    pagePath: '/pages/promptGenerator/promptGenerator'
+  },
+  {
+    key: 'resumeOptimizer',
+    name: '简历优化',
+    icon: '📋',
+    category: 'AI 工具',
+    phase: 3,
+    monetization: 'quota',
+    requiresBackend: true,
+    enabled: true,
+    pagePath: '/pages/resumeOptimizer/resumeOptimizer'
+  },
+  {
+    key: 'copywriter',
+    name: '朋友圈文案',
+    icon: '💬',
+    category: 'AI 工具',
+    phase: 3,
+    monetization: 'quota',
+    requiresBackend: true,
+    enabled: true,
+    pagePath: '/pages/copywriter/copywriter'
   }
 ]

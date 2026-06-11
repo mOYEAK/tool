@@ -1,0 +1,86 @@
+<view class="page">
+  <!-- 输入区 -->
+  <view class="input-section">
+    <view class="section-header">
+      <text class="section-title">✍️ 输入主题或产品</text>
+    </view>
+    <textarea
+      class="input-textarea"
+      placeholder="请输入朋友圈主题、产品名称或使用场景，例如：\n\"新店开业，主打轻食简餐，坐标朝阳大悦城\""
+      value="{{inputText}}"
+      bindinput="onInput"
+      auto-height
+      maxlength="500"
+      show-confirm-bar="{{false}}"
+    />
+
+    <view class="style-group">
+      <text class="style-label">文案风格</text>
+      <view class="style-tags">
+        <view
+          wx:for="{{styles}}"
+          wx:key="value"
+          class="tag {{style === item.value ? 'active' : ''}}"
+          data-value="{{item.value}}"
+          bindtap="selectStyle"
+        >{{item.label}}</view>
+      </view>
+    </view>
+
+    <view class="count-group">
+      <text class="count-label">生成数量</text>
+      <view class="count-options">
+        <view
+          wx:for="{{counts}}"
+          wx:key="*this"
+          class="count-option {{genCount === item ? 'active' : ''}}"
+          data-count="{{item}}"
+          bindtap="selectCount"
+        >{{item}} 条</view>
+      </view>
+    </view>
+
+    <button
+      class="generate-btn"
+      bindtap="startGenerate"
+      loading="{{isGenerating}}"
+      disabled="{{isGenerating || !inputText}}"
+    >生成文案</button>
+  </view>
+
+  <!-- 生成中 -->
+  <view class="loading-hint" wx:if="{{isGenerating}}">
+    <view class="hint-icon">🤖</view>
+    <view class="hint-text">AI 正在生成文案...</view>
+    <view class="hint-sub">创意酝酿中，请稍候</view>
+  </view>
+
+  <!-- 结果 -->
+  <view class="result-section" wx:if="{{result}}">
+    <view class="result-header">
+      <text class="result-title">生成结果</text>
+      <text class="result-count">{{result.length}} 字</text>
+    </view>
+    <textarea
+      class="result-textarea"
+      value="{{result}}"
+      auto-height
+      show-confirm-bar="{{false}}"
+    />
+    <view class="bottom-actions">
+      <button class="action-btn copy-btn" bindtap="copyResult">
+        <text>{{isCopied ? '✓ 已复制' : '📋 复制结果'}}</text>
+      </button>
+      <button class="action-btn retry-btn" bindtap="startGenerate">
+        <text>🔄 再生成一批</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!inputText && !isGenerating}}">
+    <view class="empty-icon">💬</view>
+    <view class="empty-title">朋友圈文案</view>
+    <view class="empty-desc">输入产品、场景或主题，AI 自动生成多风格朋友圈文案，选一条直接发。</view>
+  </view>
+</view>

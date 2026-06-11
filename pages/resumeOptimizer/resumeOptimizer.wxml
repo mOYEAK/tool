@@ -1,0 +1,63 @@
+<view class="page">
+  <!-- 输入简历 -->
+  <view class="input-section">
+    <view class="section-header">
+      <text class="section-title">📄 粘贴简历内容</text>
+      <text class="section-hint" wx:if="{{inputText}}">{{inputText.length}} 字</text>
+    </view>
+    <textarea
+      class="input-textarea"
+      placeholder="在此粘贴您的简历文本（包括工作经历、技能、教育背景等）"
+      value="{{inputText}}"
+      bindinput="onInput"
+      auto-height
+      maxlength="5000"
+      show-confirm-bar="{{false}}"
+    />
+    <button
+      class="optimize-btn"
+      bindtap="startOptimize"
+      loading="{{isOptimizing}}"
+      disabled="{{isOptimizing || !inputText}}"
+    >开始优化</button>
+  </view>
+
+  <!-- 优化中 -->
+  <view class="loading-hint" wx:if="{{isOptimizing}}">
+    <view class="hint-icon">🤖</view>
+    <view class="hint-text">AI 正在优化简历...</view>
+    <view class="hint-sub">优化措辞、突出亮点，请稍候</view>
+  </view>
+
+  <!-- 结果 -->
+  <view class="result-section" wx:if="{{result}}">
+    <view class="result-header">
+      <text class="result-title">优化结果</text>
+      <text class="result-count">{{result.length}} 字</text>
+    </view>
+    <textarea
+      class="result-textarea"
+      value="{{result}}"
+      auto-height
+      show-confirm-bar="{{false}}"
+    />
+    <view class="bottom-actions">
+      <button class="action-btn copy-btn" bindtap="copyResult">
+        <text>{{isCopied ? '✓ 已复制' : '📋 复制结果'}}</text>
+      </button>
+      <button class="action-btn retry-btn" bindtap="resetPage">
+        <text>🔄 重新优化</text>
+      </button>
+    </view>
+    <view class="upgrade-hint">
+      <text class="upgrade-text">完整 PDF 导出 · 多版本优化 · 即将开放</text>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!inputText && !isOptimizing}}">
+    <view class="empty-icon">📋</view>
+    <view class="empty-title">简历优化</view>
+    <view class="empty-desc">粘贴简历内容，AI 自动优化措辞、突出亮点、修正语法，让简历更具竞争力。</view>
+  </view>
+</view>

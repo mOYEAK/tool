@@ -22,7 +22,10 @@ const expectedV1ToolKeys = [
   'receiptMaker',
   'posterMaker',
   'ocr',
-  'idPhoto'
+  'idPhoto',
+  'promptGenerator',
+  'resumeOptimizer',
+  'copywriter'
 ]
 
 function pass(message) {
@@ -208,10 +211,10 @@ function checkReleaseConfig(globalAppConfig) {
         pass('统一应用配置完整')
       }
 
-      if (config.version !== '1.2.0') {
-        fail(`提审版本号必须为 1.2.0，当前为 ${config.version}`)
+      if (config.version !== '1.3.0') {
+        fail(`提审版本号必须为 1.3.0，当前为 ${config.version}`)
       } else {
-        pass('提审版本号为 1.2.0')
+        pass('提审版本号为 1.3.0')
       }
 
       const disabledCapabilities = ['adsEnabled', 'paymentEnabled', 'backendEnabled', 'analyticsEnabled']

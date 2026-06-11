@@ -1,6 +1,6 @@
 module.exports = {
   appName: '万能工具箱',
-  version: '1.2.0',
+  version: '1.3.0',
   supportEmail: '',
   capabilities: {
     adsEnabled: false,
@@ -11,5 +11,9 @@ module.exports = {
   ocrApiKey: '',
   ocrApiUrl: '',
   baiduApiKey: '',
-  baiduSecretKey: ''
+  baiduSecretKey: '',
+  aiApiKey: '',
+  aiBaseUrl: '',
+  aiVisionModel: '',
+  aiTextModel: ''
 }

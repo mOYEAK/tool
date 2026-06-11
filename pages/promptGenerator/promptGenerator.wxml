@@ -1,0 +1,55 @@
+<view class="page">
+  <!-- 选图 -->
+  <view class="top-bar">
+    <button class="choose-btn" bindtap="chooseImage">
+      {{imagePath ? '重新选择图片' : '选择图片'}}
+    </button>
+  </view>
+
+  <!-- 图片预览 -->
+  <view class="preview-section" wx:if="{{imagePath}}">
+    <image class="preview-image" src="{{imagePath}}" mode="widthFix" />
+    <button
+      class="analyze-btn"
+      bindtap="startAnalyze"
+      loading="{{isAnalyzing}}"
+      disabled="{{isAnalyzing}}"
+    >分析图片生成提示词</button>
+  </view>
+
+  <!-- 分析中 -->
+  <view class="loading-hint" wx:if="{{isAnalyzing}}">
+    <view class="hint-icon">🤖</view>
+    <view class="hint-text">AI 正在分析图片风格...</view>
+    <view class="hint-sub">调用视觉模型，请稍候</view>
+  </view>
+
+  <!-- 结果 -->
+  <view class="result-section" wx:if="{{result}}">
+    <view class="result-header">
+      <text class="result-title">生成的提示词</text>
+      <text class="result-count">{{result.length}} 字</text>
+    </view>
+    <textarea
+      class="result-textarea"
+      value="{{result}}"
+      auto-height
+      show-confirm-bar="{{false}}"
+    />
+    <view class="bottom-actions">
+      <button class="action-btn copy-btn" bindtap="copyResult">
+        <text>{{isCopied ? '✓ 已复制' : '📋 复制结果'}}</text>
+      </button>
+      <button class="action-btn retry-btn" bindtap="resetPage">
+        <text>🔄 重新分析</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!imagePath && !isAnalyzing}}">
+    <view class="empty-icon">🎨</view>
+    <view class="empty-title">图片转提示词</view>
+    <view class="empty-desc">上传任意图风格的图片，AI 自动分析视觉特征并生成可用于 Midjourney / Stable Diffusion 的提示词。</view>
+  </view>
+</view>

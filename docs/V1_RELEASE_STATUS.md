@@ -2,23 +2,26 @@
 
 ## V2 开发版本（当前）
 
-- 版本号：`1.2.0-dev`
+- 版本号：`1.3.0-dev`
 - 基础库：`3.16.1`
-- 启用工具：13 个
+- 启用工具：16 个
 - 广告、支付、后端、统计：全部关闭
 - 本地自检日期：2026-06-12
 
 ## 本地验证结果
 
 - `node scripts/preflight.js`：通过，0 失败
-- `node scripts/smoke-check.js`：通过，17 个页面、13 个工具
+- `node scripts/smoke-check.js`：通过，20 个页面、16 个工具
 
 ## V2 新增工具
 
 | 工具 | 状态 | 依赖 |
 |------|------|------|
-| 图片转文字 (OCR) | 已实现 | OCR.space API（需配置 `api.ocr.space` 合法域名） |
-| 证件照生成 | 已实现 | 百度人像分割 API（需配置 `aip.baidubce.com` 合法域名 + API Key） |
+| 图片转文字 (OCR) | 已实现 | OCR.space API |
+| 证件照生成 | 已实现 | 百度人像分割 API |
+| 图片转提示词 | 已实现 | OpenAI 兼容 API（GPT-4V） |
+| 简历优化 | 已实现 | OpenAI 兼容 API（GPT-3.5） |
+| 朋友圈文案 | 已实现 | OpenAI 兼容 API（GPT-3.5） |
 
 ## V1 版本（已冻结）
 
